@@ -2,16 +2,18 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\TaskCardResource\Pages;
-use App\Filament\Resources\TaskCardResource\RelationManagers;
-use App\Models\TaskCard;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Models\Task;
 use Filament\Tables;
+use App\Models\TaskCard;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\TaskCardResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\TaskCardResource\RelationManagers;
 
 class TaskCardResource extends Resource
 {
@@ -31,18 +33,51 @@ class TaskCardResource extends Resource
     {
         return $form
         ->schema([
-            Forms\Components\Section::make('Tasks')
+            Forms\Components\Section::make('Task Card')
             ->schema([
-
-            ])
+                Select::make('task_id')
+                    ->label('Task')
+                    ->options(Task::all()->pluck('name', 'id'))
+                    ->searchable()
+                   ->required(),
+                   Forms\Components\TextInput::make('name')
+                   ->required()
+                    ->columnSpanFull(),
+                   Forms\Components\Textarea::make('instruction')
+                   ->required()
+                   ->columnSpanFull(),
+            ]),
         ]);
+
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('task_id')
+                    ->sortable()
+                    ->getStateUsing(function ($record) {
+                        return Task::find($record->task_id)->name;
+                    })
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('name')
+                ->copyable()
+                ->searchable(),
+                Tables\Columns\TextColumn::make('instruction')
+                ->copyable()
+                ->searchable()
+                    ->sortable()
+                    ->wrap(),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

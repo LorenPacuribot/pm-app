@@ -64,9 +64,11 @@ class TaskResource extends Resource
                     })
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->copyable(),
                     Tables\Columns\TextColumn::make('description')
-                    ->searchable(),
+                    ->searchable()
+                    ->copyable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

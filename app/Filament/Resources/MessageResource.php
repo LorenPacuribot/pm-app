@@ -43,11 +43,14 @@ class MessageResource extends Resource
                 Forms\Components\Textarea::make('message')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('sentTo')
-                    ->required()
-                    ->maxLength(255),
-            ])
-        ]);
+                    Select::make('sentTo')
+                    ->options([
+                        'client' => 'Client',
+                        'team' => 'Team',
+                        'sales' => 'Sales',
+                                 ])
+                            ])
+                        ]);
     }
 
     public static function table(Table $table): Table
@@ -60,6 +63,9 @@ class MessageResource extends Resource
                         return Task::find($record->task_id)->name;
                     })
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('message')
+                ->copyable()
+                ->searchable(),
                 Tables\Columns\TextColumn::make('sentTo')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')

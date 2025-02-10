@@ -62,15 +62,18 @@ class RoadblockResource extends Resource
                 ->getStateUsing(function ($record) {
                     return Project::find($record->project_id)->name;
                 })
-                ->toggleable(isToggledHiddenByDefault: true),
+                ->toggleable(isToggledHiddenByDefault: true)
+                ->copyable(),
                 Tables\Columns\TextColumn::make('task_id')
                     ->sortable()
                     ->getStateUsing(function ($record) {
                         return Task::find($record->task_id)->name;
                     })
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->copyable(),
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->copyable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

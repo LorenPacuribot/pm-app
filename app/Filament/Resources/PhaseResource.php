@@ -57,11 +57,14 @@ class PhaseResource extends Resource
                 ->getStateUsing(function ($record) {
                     return Milestone::find($record->milestone_id)->name;
                 })
-                ->toggleable(isToggledHiddenByDefault: true),
+                ->toggleable(isToggledHiddenByDefault: true)
+                ->copyable(),
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                ->copyable()
+                ->searchable(),
                 Tables\Columns\TextColumn::make('description')
-                    ->searchable()
+                ->copyable()
+                ->searchable()
                     ->sortable()
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true),
