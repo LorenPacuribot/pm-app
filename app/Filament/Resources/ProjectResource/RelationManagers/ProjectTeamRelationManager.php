@@ -3,12 +3,15 @@
 namespace App\Filament\Resources\ProjectResource\RelationManagers;
 
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Resources\RelationManagers\RelationManager;
 
 class ProjectTeamRelationManager extends RelationManager
 {
@@ -18,9 +21,18 @@ class ProjectTeamRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('ProjectTeam')
-                    ->required()
-                    ->maxLength(255),
+                // Select::make('project_id')
+                // ->relationship('project', 'name')
+                // ->required(),
+
+            TextInput::make('role')
+                ->required(),
+
+            TextInput::make('name')
+                ->required(),
+
+            TextInput::make('hours')
+            ->required(),
             ]);
     }
 
@@ -29,7 +41,10 @@ class ProjectTeamRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('ProjectTeam')
             ->columns([
-                Tables\Columns\TextColumn::make('ProjectTeam'),
+                TextColumn::make('project.name')->label('Project'),
+                TextColumn::make('role')->limit(50),
+                TextColumn::make('name'),
+                TextColumn::make('hours'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make()

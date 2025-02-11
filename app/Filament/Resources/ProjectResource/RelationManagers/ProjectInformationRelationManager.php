@@ -3,12 +3,16 @@
 namespace App\Filament\Resources\ProjectResource\RelationManagers;
 
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Resources\RelationManagers\RelationManager;
 
 class ProjectInformationRelationManager extends RelationManager
 {
@@ -17,10 +21,35 @@ class ProjectInformationRelationManager extends RelationManager
     public function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('ProjectInformation')
-                    ->required()
-                    ->maxLength(255),
+        ->schema([
+            // Select::make('project_id')
+            //     ->relationship('project', 'name')
+            //     ->required(),
+
+            Textarea::make('overview')
+                ->rows(3)
+                ->required(),
+
+            TextInput::make('projectType')
+                ->required(),
+
+            TextInput::make('platform')
+                ->required(),
+
+            TextInput::make('methodology')
+                ->required(),
+
+            Textarea::make('problem')
+                ->rows(3)
+                ->required(),
+
+            Textarea::make('solution')
+                ->rows(3)
+                ->required(),
+
+            Textarea::make('impact')
+                ->rows(3)
+                ->required(),
             ]);
     }
 
@@ -29,7 +58,14 @@ class ProjectInformationRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('ProjectInformation')
             ->columns([
-                Tables\Columns\TextColumn::make('ProjectInformation'),
+                TextColumn::make('project.name')->label('Project'),
+                TextColumn::make('overview')->limit(50),
+                TextColumn::make('projectType'),
+                TextColumn::make('platform'),
+                TextColumn::make('methodology'),
+                TextColumn::make('problem')->limit(50),
+                TextColumn::make('solution')->limit(50),
+                TextColumn::make('impact')->limit(50),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make()
