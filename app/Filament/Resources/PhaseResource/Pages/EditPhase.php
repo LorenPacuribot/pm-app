@@ -10,6 +10,11 @@ class EditPhase extends EditRecord
 {
     protected static string $resource = PhaseResource::class;
 
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+
     protected function getHeaderActions(): array
     {
         return [

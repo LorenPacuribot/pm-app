@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('roadblocks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_id')->constrained('phases')->onDelete('cascade');
+            $table->foreignId('project_id')->constrained('project')->onDelete('cascade');
             $table->foreignId('task_id')->constrained('tasks')->onDelete('cascade');
             $table->string('name');
             $table->timestamps();

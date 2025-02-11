@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateTaskCard extends CreateRecord
 {
     protected static string $resource = TaskCardResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

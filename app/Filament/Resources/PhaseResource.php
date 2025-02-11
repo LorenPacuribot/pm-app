@@ -66,8 +66,8 @@ class PhaseResource extends Resource
                 ->copyable()
                 ->searchable()
                     ->sortable()
-                    ->wrap()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->wrap(),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
