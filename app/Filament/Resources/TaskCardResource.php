@@ -27,7 +27,7 @@ class TaskCardResource extends Resource
 
     protected static ?string $navigationGroup = 'COMMUNICATION';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
@@ -55,12 +55,11 @@ class TaskCardResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('task_id')
+                Tables\Columns\TextColumn::make('Task')
                     ->sortable()
                     ->getStateUsing(function ($record) {
                         return Task::find($record->task_id)->name;
-                    })
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    }),
                 Tables\Columns\TextColumn::make('name')
                 ->copyable()
                 ->searchable(),

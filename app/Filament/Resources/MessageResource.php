@@ -57,12 +57,11 @@ class MessageResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('task_id')
+                Tables\Columns\TextColumn::make('Task')
                     ->sortable()
                     ->getStateUsing(function ($record) {
                         return Task::find($record->task_id)->name;
-                    })
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    }),
                 Tables\Columns\TextColumn::make('message')
                 ->copyable()
                 ->searchable(),

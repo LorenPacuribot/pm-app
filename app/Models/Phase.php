@@ -22,4 +22,9 @@ class Phase extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    public function emails()
+    {
+        return $this->hasMany(Email::class);
+    }
 }

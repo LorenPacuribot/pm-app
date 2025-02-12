@@ -23,13 +23,19 @@ class Progress extends Model
         return $this->belongsTo(Project::class);
     }
 
+    public function phase()
+    {
+        return $this->belongsTo(Phase::class);
+    }
+
     public function task()
     {
         return $this->belongsTo(Task::class);
     }
 
-    public function phase()
-    {
-        return $this->belongsTo(Phase::class);
-    }
+
+
+
+    
+
 }

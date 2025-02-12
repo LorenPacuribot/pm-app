@@ -53,7 +53,7 @@ class PhaseResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('milestone_id')
+                Tables\Columns\TextColumn::make('Milestone')
                 ->getStateUsing(function ($record) {
                     return Milestone::find($record->milestone_id)->name;
                 })
