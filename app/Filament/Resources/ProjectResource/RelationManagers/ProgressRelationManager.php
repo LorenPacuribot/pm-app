@@ -39,10 +39,21 @@ class ProgressRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('Progress')
             ->columns([
-                TextColumn::make('project.name')->label('Project'),
-                TextColumn::make('phase.name')->label('Phase'),
-                TextColumn::make('task.name')->label('Task'),
-                TextColumn::make('status'),
+                TextColumn::make('project.name')
+                ->sortable()
+                ->searchable()
+                ->label('Project'),
+                TextColumn::make('phase.name')
+                ->sortable()
+                ->searchable()
+                ->label('Phase'),
+                TextColumn::make('task.name')
+                ->sortable()
+                ->searchable()
+                ->label('Task'),
+                TextColumn::make('status')
+                ->sortable()
+                ->searchable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make()
