@@ -48,22 +48,6 @@ class ProgressRelationManager extends RelationManager
             ->recordTitleAttribute('Progress')
             ->columns([
                 TextColumn::make('project.name')
-<<<<<<< HEAD
-                ->sortable()
-                ->searchable()
-                ->label('Project'),
-                TextColumn::make('phase.name')
-                ->sortable()
-                ->searchable()
-                ->label('Phase'),
-                TextColumn::make('task.name')
-                ->sortable()
-                ->searchable()
-                ->label('Task'),
-                TextColumn::make('status')
-                ->sortable()
-                ->searchable(),
-=======
                 ->searchable()
                 ->sortable()
                 ->toggleable(isToggledHiddenByDefault: true)
@@ -87,7 +71,6 @@ class ProgressRelationManager extends RelationManager
                    '1' => 'success',
     })
 
->>>>>>> cdb5ebd06e0f109a82b490a71a8f7f8fe27e59bd
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make()
