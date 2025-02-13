@@ -22,15 +22,23 @@ class ProgressRelationManager extends RelationManager
     {
         return $form
         ->schema([
-                Select::make('phase_id')
-                ->relationship('phase', 'name')
-                ->required(),
-                Select::make('task_id')
-                ->relationship('task', 'name')
-                ->required(),
-            Forms\Components\TextInput::make('status')
-                ->required()
-                ->maxLength(255),
+            Forms\Components\Section::make('Progress')
+            ->schema([
+                // Select::make('phase_id')
+                // ->relationship('phase', 'name')
+                // ->required(),
+                // Select::make('task_id')
+                // ->relationship('task', 'name')
+                // ->required(),
+            // Forms\Components\TextInput::make('status')
+            //     ->required()
+            //     ->maxLength(255),
+                Select::make('status')
+                ->options([
+                    '0' => 'Pending',
+                    '1' => 'Done',
+                ])
+    ])
         ]);
     }
 
