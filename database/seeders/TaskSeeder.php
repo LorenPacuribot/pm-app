@@ -25,6 +25,17 @@ class TaskSeeder extends Seeder
                 'updated_at' => Carbon::parse('2025-02-11 14:20:35'),
                 'deleted_at' => null,
             ],
+            
+            [
+                'id' => 2,
+                'phase_id' => 2,
+                'name' => 'Task 1',
+                'description' => 'task 1 description',
+                'documentNeeded' => 'task 1 description',
+                'created_at' => Carbon::parse('2025-02-11 14:20:35'),
+                'updated_at' => Carbon::parse('2025-02-11 14:20:35'),
+                'deleted_at' => null,
+            ],
             [
                 'id' => 3,
                 'phase_id' => 2,
