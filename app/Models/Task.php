@@ -35,25 +35,29 @@ class Task extends Model
 
 
     protected static function boot()
-    {
-        parent::boot();
+{
+    parent::boot();
 
-        static::created(function ($task) {
+    static::created(function ($task) {
+        if ($task->phase_id) { // Ensure task has a phase_id
             $task->addToExistingProjects();
-        });
-    }
 
-    public function addToExistingProjects()
-    {
-        $projects = Project::all(); // Get all existing projects
-
-        foreach ($projects as $project) {
-            Progress::create([
-                'project_id' => $project->id,
-                'phase_id' => $this->phase_id, // Use the task's phase_id
-                'task_id' => $this->id,
-                'status' => '0', // Default status
-            ]);
         }
+    });
+}
+
+public function addToExistingProjects()
+{
+    $projects = Project::all(); // Get all existing projects
+
+    foreach ($projects as $project) {
+        Progress::create([
+            'project_id' => $project->id,
+            'phase_id' => $this->phase_id, // Ensure this is not null
+            'task_id' => $this->id,
+            'status' => '0', // Default status
+        ]);
     }
+}
+
 }

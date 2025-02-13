@@ -22,16 +22,24 @@ class ProgressRelationManager extends RelationManager
     {
         return $form
         ->schema([
-                Select::make('phase_id')
-                ->relationship('phase', 'name')
-                ->required(),
-                Select::make('task_id')
-                ->relationship('task', 'name')
-                ->required(),
-            Forms\Components\TextInput::make('status')
-                ->required()
-                ->maxLength(255),
-        ]);
+            Forms\Components\Section::make('Progress')
+            ->schema([
+                // Select::make('phase_id')
+                // ->relationship('phase', 'name')
+                // ->required(),
+                // Select::make('task_id')
+                // ->relationship('task', 'name')
+                // ->required(),
+            // Forms\Components\TextInput::make('status')
+            //     ->required()
+            //     ->maxLength(255),
+                Select::make('status')
+                ->options([
+                    '0' => 'Pending',
+                    '1' => 'Done',
+                ])
+    ])
+]);
     }
 
     public function table(Table $table): Table
@@ -39,16 +47,36 @@ class ProgressRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('Progress')
             ->columns([
-                TextColumn::make('project.name')->label('Project'),
-                TextColumn::make('phase.name')->label('Phase'),
-                TextColumn::make('task.name')->label('Task'),
-                TextColumn::make('status'),
+                TextColumn::make('project.name')
+                ->searchable()
+                ->sortable()
+                ->toggleable(isToggledHiddenByDefault: true)
+                ->label('Project'),
+                TextColumn::make('phase.name')
+                ->searchable()
+                ->sortable()
+                ->label('Phase'),
+                TextColumn::make('task.name')
+                ->searchable()
+                ->sortable()
+                ->label('Task'),
+                TextColumn::make('status')
+                ->label('Status')
+                ->searchable()
+                ->sortable()
+                ->formatStateUsing(fn ($state) => $state == '1' ? 'Done' : 'Pending')
+                ->badge()
+                ->color(fn (string $state): string => match ($state) {
+                   '0' => 'warning',
+                   '1' => 'success',
+    })
+
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make()
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+               // Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

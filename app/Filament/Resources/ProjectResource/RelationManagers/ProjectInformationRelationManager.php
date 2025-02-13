@@ -22,6 +22,8 @@ class ProjectInformationRelationManager extends RelationManager
     {
         return $form
         ->schema([
+            Forms\Components\Section::make('Project Information')
+            ->schema([
             // Select::make('project_id')
             //     ->relationship('project', 'name')
             //     ->required(),
@@ -50,7 +52,8 @@ class ProjectInformationRelationManager extends RelationManager
             Textarea::make('impact')
                 ->rows(3)
                 ->required(),
-            ]);
+            ])
+        ]);
     }
 
     public function table(Table $table): Table

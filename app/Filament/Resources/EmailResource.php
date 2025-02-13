@@ -32,6 +32,8 @@ class EmailResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
+        ->schema([
+            Forms\Components\Section::make('Email')
             ->schema([
                 Select::make('phase_id')
                 ->label('Phase')
@@ -47,7 +49,8 @@ class EmailResource extends Resource
                 Forms\Components\Textarea::make('response')
                     ->required()
                     ->columnSpanFull(),
-            ]);
+            ])
+        ]);
     }
 
     public static function table(Table $table): Table
