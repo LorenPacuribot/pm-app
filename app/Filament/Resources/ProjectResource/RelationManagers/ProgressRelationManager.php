@@ -39,7 +39,7 @@ class ProgressRelationManager extends RelationManager
                     '1' => 'Done',
                 ])
     ])
-        ]);
+]);
     }
 
     public function table(Table $table): Table
