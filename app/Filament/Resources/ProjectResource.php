@@ -73,9 +73,10 @@ class ProjectResource extends Resource
     public static function getRelations(): array
     {
         return [
+            RelationManagers\ProgressRelationManager::class,
             RelationManagers\ProjectInformationRelationManager::class,
             RelationManagers\ProjectTeamRelationManager::class,
-            RelationManagers\ProgressRelationManager::class,
+
         ];
     }
 

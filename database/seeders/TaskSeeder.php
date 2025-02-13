@@ -16,6 +16,17 @@ class TaskSeeder extends Seeder
     {
         DB::table('tasks')->insert([
             [
+                'id' => 1,
+                'phase_id' => 1,
+                'name' => 'Task 1',
+                'description' => 'task 1 description',
+                'documentNeeded' => 'task 1 description',
+                'created_at' => Carbon::parse('2025-02-11 14:20:35'),
+                'updated_at' => Carbon::parse('2025-02-11 14:20:35'),
+                'deleted_at' => null,
+            ],
+
+            [
                 'id' => 2,
                 'phase_id' => 2,
                 'name' => 'Task 1',

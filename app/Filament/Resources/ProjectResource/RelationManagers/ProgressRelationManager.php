@@ -40,6 +40,7 @@ class ProgressRelationManager extends RelationManager
             ->recordTitleAttribute('Progress')
             ->columns([
                 TextColumn::make('project.name')
+<<<<<<< HEAD
                 ->sortable()
                 ->searchable()
                 ->label('Project'),
@@ -54,12 +55,37 @@ class ProgressRelationManager extends RelationManager
                 TextColumn::make('status')
                 ->sortable()
                 ->searchable(),
+=======
+                ->searchable()
+                ->sortable()
+                ->toggleable(isToggledHiddenByDefault: true)
+                ->label('Project'),
+                TextColumn::make('phase.name')
+                ->searchable()
+                ->sortable()
+                ->label('Phase'),
+                TextColumn::make('task.name')
+                ->searchable()
+                ->sortable()
+                ->label('Task'),
+                TextColumn::make('status')
+                ->label('Status')
+                ->searchable()
+                ->sortable()
+                ->formatStateUsing(fn ($state) => $state == '1' ? 'Done' : 'Pending')
+                ->badge()
+                ->color(fn (string $state): string => match ($state) {
+                   '0' => 'warning',
+                   '1' => 'success',
+    })
+
+>>>>>>> cdb5ebd06e0f109a82b490a71a8f7f8fe27e59bd
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make()
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+               // Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

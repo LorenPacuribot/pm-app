@@ -20,6 +20,8 @@ class ProjectTeamRelationManager extends RelationManager
     public function form(Form $form): Form
     {
         return $form
+        ->schema([
+            Forms\Components\Section::make('Project Information')
             ->schema([
                 // Select::make('project_id')
                 // ->relationship('project', 'name')
@@ -33,7 +35,8 @@ class ProjectTeamRelationManager extends RelationManager
 
             TextInput::make('hours')
             ->required(),
-            ]);
+            ])
+        ]);
     }
 
     public function table(Table $table): Table

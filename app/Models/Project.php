@@ -35,24 +35,25 @@ class Project extends Model
     {
         parent::boot();
 
-        static::created(function ($task) {
-            $task->addToExistingProjects();
+        static::created(function ($project) {
+            $project->createProgressEntries();
         });
     }
 
-    public function addToExistingProjects()
+    public function createProgressEntries()
     {
-        $projects = Project::all(); // Get all existing projects
+        $tasks = Task::all(); // Get all tasks
 
-        foreach ($projects as $project) {
+        foreach ($tasks as $task) {
             Progress::create([
-                'project_id' => $project->id,
-                'phase_id' => $this->phase_id, // Use the task's phase_id
-                'task_id' => $this->id,
+                'project_id' => $this->id,
+                'phase_id' => $task->phase_id, // Automatically get the corresponding phase
+                'task_id' => $task->id,
                 'status' => '0', // Default status
             ]);
         }
     }
+    
 
 
 
