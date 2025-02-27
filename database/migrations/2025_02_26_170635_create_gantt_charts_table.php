@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('ganttcharts', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('project_id')->constrained('projects')->onDelete('cascade');
             $table->foreignId('milestone_id')->constrained('milestones')->onDelete('cascade');
-            $table->foreignId('phase_id')->constrained('phases')->onDelete('cascade');
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->text('documentNeeded')->nullable();
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->integer('days');
+            $table->integer('delay')->default(0);
+            $table->decimal('budget', 15, 2);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('ganttcharts');
     }
 };

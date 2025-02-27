@@ -162,7 +162,7 @@ class PhaseSeeder extends Seeder
         'id' => 24,
         'name' => 'Project archiving',
         'description' => 'This Phase is saving the read me files in sync wiki and back-uping the project',
-        'milestone_id' => 12,
+        'milestone_id' => 11,
     ],
     [
         'id' => 25,

@@ -2,20 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-
-class Progress extends Model
+class CommunicationPlan extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
     protected $fillable = [
-        'project_id','milestone_id','phase_id', 'task_id', 'status',
+        'project_id','milestone_id','phase_id', 'email_id', 'status',
     ];
 
     public function project()
@@ -33,14 +30,8 @@ class Progress extends Model
         return $this->belongsTo(Phase::class);
     }
 
-    public function task()
+    public function email()
     {
-        return $this->belongsTo(Task::class);
+        return $this->belongsTo(Email::class);
     }
-
-
-
-
-
-
 }

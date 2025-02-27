@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('cpi', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('milestone_id')->constrained('milestones')->onDelete('cascade');
-            $table->foreignId('phase_id')->constrained('phases')->onDelete('cascade');
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->text('documentNeeded')->nullable();
+            $table->foreignId('project_id')->constrained('projects')->onDelete('cascade');
+            $table->integer('estimates_from_sales');
+            $table->integer('time_consumed_by_team');
+            $table->string('cpi_status');
+            $table->integer('cpi_value');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('cpi');
     }
 };

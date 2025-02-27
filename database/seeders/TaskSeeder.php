@@ -18,6 +18,7 @@ class TaskSeeder extends Seeder
             [
                 'id' => 1,
                 'phase_id' => 1,
+                'milestone_id' => 1,
                 'name' => 'Task 1',
                 'description' => 'task 1 description',
                 'documentNeeded' => 'task 1 description',
@@ -29,6 +30,7 @@ class TaskSeeder extends Seeder
             [
                 'id' => 2,
                 'phase_id' => 2,
+                'milestone_id' => 1,
                 'name' => 'Task 1',
                 'description' => 'task 1 description',
                 'documentNeeded' => 'task 1 description',
@@ -39,6 +41,7 @@ class TaskSeeder extends Seeder
             [
                 'id' => 3,
                 'phase_id' => 2,
+                'milestone_id' => 2,
                 'name' => 'Task 2',
                 'description' => 'task 2 Description',
                 'documentNeeded' => 'task 2 description',
@@ -49,6 +52,7 @@ class TaskSeeder extends Seeder
             [
                 'id' => 4,
                 'phase_id' => 3,
+                'milestone_id' => 1,
                 'name' => 'Task 3',
                 'description' => 'task 3 description ',
                 'documentNeeded' => 'task 3 description ',
@@ -59,6 +63,7 @@ class TaskSeeder extends Seeder
             [
                 'id' => 5,
                 'phase_id' => 4,
+                'milestone_id' => 2,
                 'name' => 'Task 4',
                 'description' => 'task 4 description ',
                 'documentNeeded' => 'task 4',

@@ -11,9 +11,9 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            /* background: url('images/background.svg') no-repeat center center fixed;
+          /*  background: url('images/Background.png') no-repeat center center fixed;
             background-size: cover;
-            background-image: linear-gradient(to left,#000000 , #00003f,#0066cc, #0066cc, #00003f,  #000000);*/
+             background-image: linear-gradient(to left,#000000 , #00003f,#0066cc, #0066cc, #00003f,  #000000); */
             background-image: linear-gradient(to left,  #00003f,  #000000);
             color: white;
 

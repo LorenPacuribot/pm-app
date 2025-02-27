@@ -52,6 +52,10 @@ class ProgressRelationManager extends RelationManager
                 ->sortable()
                 ->toggleable(isToggledHiddenByDefault: true)
                 ->label('Project'),
+                TextColumn::make('milestone.name')
+                ->searchable()
+                ->sortable()
+                ->label('Milestone'),
                 TextColumn::make('phase.name')
                 ->searchable()
                 ->sortable()

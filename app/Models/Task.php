@@ -10,8 +10,13 @@ class Task extends Model
     use HasFactory;
 
     protected $fillable = [
-        'phase_id', 'name', 'description', 'documentNeeded',
+        'milstone_id','phase_id', 'name', 'description', 'documentNeeded',
     ];
+
+    public function milestone()
+    {
+        return $this->belongsTo(Milestone::class);
+    }
 
     public function phase()
     {
@@ -53,6 +58,7 @@ public function addToExistingProjects()
     foreach ($projects as $project) {
         Progress::create([
             'project_id' => $project->id,
+            'milestone_id' => $this->milestone_id,
             'phase_id' => $this->phase_id, // Ensure this is not null
             'task_id' => $this->id,
             'status' => '0', // Default status

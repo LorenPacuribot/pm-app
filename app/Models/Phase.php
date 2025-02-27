@@ -13,7 +13,7 @@ class Phase extends Model
         'milestone_id', 'name', 'description',
     ];
 
-    public function milestone()
+    public function milestones()
     {
         return $this->belongsTo(Milestone::class);
     }

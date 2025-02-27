@@ -2,20 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-
-class Progress extends Model
+class GanttChart extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
+    protected $table = 'ganttcharts';
+
     protected $fillable = [
-        'project_id','milestone_id','phase_id', 'task_id', 'status',
+        'project_id',
+        'milestone_id',
+        'start_date',
+        'end_date',
+        'days',
+        'delay',
+        'budget'
     ];
 
     public function project()
@@ -27,18 +34,6 @@ class Progress extends Model
     {
         return $this->belongsTo(Milestone::class);
     }
-
-    public function phase()
-    {
-        return $this->belongsTo(Phase::class);
-    }
-
-    public function task()
-    {
-        return $this->belongsTo(Task::class);
-    }
-
-
 
 
 

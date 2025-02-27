@@ -18,6 +18,11 @@ class Milestone extends Model
         return $this->hasMany(Phase::class);
     }
 
+    public function milestones()
+    {
+        return $this->hasMany(Milestone::class);
+    }
+
     public function projects()
     {
         return $this->hasManyThrough(Project::class, Phase::class);

@@ -36,8 +36,8 @@ class AdminPanelProvider extends PanelProvider
                 'warning' => Color::Amber,
             ])
             ->navigationGroups([
-                'SYSTEM MANAGEMENT',
                 'PROJECT',
+                'SYSTEM MANAGEMENT',
                 'PROCESS DETAILS',
                 'COMMUNICATION',])
 
