@@ -3,12 +3,15 @@
 namespace App\Filament\Resources\ProjectResource\RelationManagers;
 
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Resources\RelationManagers\RelationManager;
 
 class GanntChartRelationManager extends RelationManager
 {
@@ -18,9 +21,32 @@ class GanntChartRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('ganntchart')
-                    ->required()
-                    ->maxLength(255),
+                TextInput::make('project_id')
+                ->required()
+                ->numeric()
+                ->label('Project ID'),
+            TextInput::make('milestone_id')
+                ->required()
+                ->numeric()
+                ->label('Milestone ID'),
+            DatePicker::make('start_date')
+                ->required()
+                ->label('Start Date'),
+            DatePicker::make('end_date')
+                ->required()
+                ->label('End Date'),
+            TextInput::make('days')
+                ->required()
+                ->numeric()
+                ->label('Days'),
+            TextInput::make('delay')
+                ->numeric()
+                ->label('Delay')
+                ->default(0),
+            TextInput::make('budget')
+                ->required()
+                ->numeric()
+                ->label('Budget'),
             ]);
     }
 
@@ -29,7 +55,15 @@ class GanntChartRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('ganntchart')
             ->columns([
-                Tables\Columns\TextColumn::make('ganntchart'),
+                TextColumn::make('project.name')
+                ->searchable()
+                ->sortable()
+                ->toggleable(isToggledHiddenByDefault: true)
+                ->label('Project'),
+                TextColumn::make('milestone.name')
+                ->searchable()
+                ->sortable()
+                ->label('Milestone'),
             ])
             ->filters([
                 //

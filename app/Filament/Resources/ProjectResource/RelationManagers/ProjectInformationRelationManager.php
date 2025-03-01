@@ -25,24 +25,59 @@ class ProjectInformationRelationManager extends RelationManager
         ->schema([
             Forms\Components\Section::make('Project Information')
             ->schema([
+            Forms\Components\Section::make('Project Details')
+            ->schema([
             // Select::make('project_id')
             //     ->relationship('project', 'name')
             //     ->required(),
-            TextInput::make('client')->required(),
-            TextInput::make('contact_person')->required(),
-            TextInput::make('project_type')->required(),
-            TextInput::make('platform')->required(),
-            Textarea::make('purpose')->required(),
-            TextInput::make('target_audience')->required(),
-            DatePicker::make('project_deadline')->required(),
-            Textarea::make('project_scope')->required(),
-            TextInput::make('developing_language')->required(),
+            TextInput::make('client')
+            ->required(),
+            TextInput::make('contact_person')
+            ->required(),
+           // TextInput::make('project_type'),
+            Select::make('project_type')
+            ->options([
+                'NSC Premium Theme' => 'NSC Premium Theme',
+                'NSC Custom' => 'NSC Custom',
+                'Premium Theme' => 'Premium Theme',
+                'Custom' => 'Custom',
+                'Maintenance' => 'Maintenance',
+            ])
+            ->required(),
+            // TextInput::make('platform')
+            // ->required(),
+            Select::make('platform')
+            ->options([
+                'Wordpress' => 'Wordpress',
+                'Laravel' => 'Laravel',
+            ])
+            ]),
+            Forms\Components\Section::make('Executive Summary ')
+            ->schema([
+            Textarea::make('purpose')
+            ->required(),
+            TextInput::make('target_audience')
+            ->required(),
+            DatePicker::make('project_deadline')
+            ->required(),
+            Textarea::make('project_scope')
+            ->required(),
+            TextInput::make('developing_language')
+            ->required(),
             TextInput::make('server_requirement'),
+
+        ]),
+        Forms\Components\Section::make('Executive Summary ')
+        ->schema([
             TextInput::make('browser'),
             TextInput::make('resolution'),
             TextInput::make('mobile_devices'),
             Textarea::make('pages_to_test'),
             Textarea::make('pages_not_to_test'),
+
+        ])->columns(3),
+        Forms\Components\Section::make('Executive Summary ')
+            ->schema([
             TextInput::make('mockup_links'),
             TextInput::make('wireframe'),
             TextInput::make('erd'),
@@ -53,6 +88,9 @@ class ProjectInformationRelationManager extends RelationManager
             TextInput::make('content_checklist'),
             TextInput::make('sitemap'),
             TextInput::make('project_drive_link'),
+            ]),
+        Forms\Components\Section::make('Executive Summary ')
+            ->schema([
             TextInput::make('assigned_pm'),
             TextInput::make('developer'),
             TextInput::make('qa'),
@@ -63,31 +101,9 @@ class ProjectInformationRelationManager extends RelationManager
             TextInput::make('ftp_cpanel'),
             TextInput::make('db'),
             TextInput::make('domain_registry'),
-            // Textarea::make('overview')
-            //     ->rows(3)
-            //     ->required(),
+            ]),
 
-            // TextInput::make('projectType')
-            //     ->required(),
-
-            // TextInput::make('platform')
-            //     ->required(),
-
-            // TextInput::make('methodology')
-            //     ->required(),
-
-            // Textarea::make('problem')
-            //     ->rows(3)
-            //     ->required(),
-
-            // Textarea::make('solution')
-            //     ->rows(3)
-            //     ->required(),
-
-            // Textarea::make('impact')
-            //     ->rows(3)
-            //     ->required(),
-            ])
+        ]),
         ]);
     }
 

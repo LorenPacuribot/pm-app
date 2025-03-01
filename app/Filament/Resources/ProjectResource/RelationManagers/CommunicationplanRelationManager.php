@@ -3,12 +3,13 @@
 namespace App\Filament\Resources\ProjectResource\RelationManagers;
 
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Resources\RelationManagers\RelationManager;
 
 class CommunicationplanRelationManager extends RelationManager
 {
@@ -29,7 +30,11 @@ class CommunicationplanRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('communicationplan')
             ->columns([
-                Tables\Columns\TextColumn::make('communicationplan'),
+                TextColumn::make('project.name')
+                ->searchable()
+                ->sortable()
+                ->toggleable(isToggledHiddenByDefault: true)
+                ->label('Project'),
             ])
             ->filters([
                 //

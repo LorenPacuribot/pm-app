@@ -84,19 +84,21 @@ class ProjectResource extends Resource
             ]),
 
             RelationGroup::make('Process', [
+                RelationManagers\ProgressRelationManager::class,
                 RelationManagers\CommunicationplanRelationManager::class,
                 RelationManagers\QuicklinkRelationManager::class,
-                RelationManagers\RoadblockRelationManager::class,
             ]),
 
             RelationGroup::make('Progress', [
                 RelationManagers\TaskmonitoringstatusRelationManager::class,
-                RelationManagers\ProgressRelationManager::class,
+
                 RelationManagers\CpiRelationManager::class,
                 RelationManagers\SpiRelationManager::class,
             ]),
 
-
+            RelationGroup::make('Concerns', [
+                RelationManagers\RoadblockRelationManager::class,
+            ]),
 
 
         ];

@@ -25,7 +25,7 @@ class MessageResource extends Resource
 
     protected static ?string $slug = 'messages';
 
-    protected static ?string $navigationGroup = 'COMMUNICATION';
+    protected static ?string $navigationGroup = 'COMMUNICATION TEMPLATES';
 
     protected static ?int $navigationSort = 1;
 
