@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateVerse extends CreateRecord
 {
     protected static string $resource = VerseResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

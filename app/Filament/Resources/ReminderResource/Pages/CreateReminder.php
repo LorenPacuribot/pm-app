@@ -9,4 +9,10 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateReminder extends CreateRecord
 {
     protected static string $resource = ReminderResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+
 }
