@@ -27,8 +27,16 @@ class ProjectTeamRelationManager extends RelationManager
                 // ->relationship('project', 'name')
                 // ->required(),
 
-            TextInput::make('role')
-                ->required(),
+
+
+            Select::make('role')
+                ->options([
+                    'Project Manager' => 'Project Manager',
+                    'Designer' => 'Designer',
+                    'Developer' => 'Developer',
+                    'Quality Assurance' => 'Quality Assurance',
+                    'Shadow' => 'Shadow',
+                ]),
 
             TextInput::make('name')
                 ->required(),

@@ -24,3 +24,7 @@ yarn-error.log
 vendor/
 .env
 node_modules/
+
+**/caddy
+frankenphp
+frankenphp-worker.php

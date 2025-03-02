@@ -66,29 +66,75 @@ class Project extends Model
         return $this->hasMany(Roadblock::class);
     }
 
+
+
+
     protected static function boot()
-    {
-        parent::boot();
+{
+    parent::boot();
 
-        static::created(function ($project) {
-            $project->createProgressEntries();
-        });
+    static::created(function ($project) {
+        $project->createProgressEntries(); // Fill Progress Table
+        $project->createGanttChartEntries(); // Fill Gantt Chart Table
+    });
+}
+
+public function createProgressEntries()
+{
+    // Get only tasks that match the project’s task type
+    $tasks = Task::where('task_type_id', $this->task_type_id)->get();
+
+    foreach ($tasks as $task) {
+        Progress::create([
+            'project_id' => $this->id,
+            'milestone_id' => $task->milestone_id,
+            'phase_id' => $task->phase_id,
+            'task_id' => $task->id,
+            'status' => '0', // Default status
+        ]);
     }
+}
 
-    public function createProgressEntries()
-    {
-        $tasks = Task::all(); // Get all tasks
+  public function createGanttChartEntries()
+{
+    $milestones = [
+        'Site Architecture & Analysis' => 3,
+        'Template Design Creation' => 3,
+        'Template Design Review/Approval' => 3,
+        'Internal Pages Mockup Creation' => 3,
+        'Final Documentation' => 2,
+        'Project Plan Review/Approval' => 3,
+        'Slicing & Development' => 10,
+        'Initial Full Review (QA)' => 9,
+        'Review/Approval for Uploading' => 3,
+        'Uploading/Launching' => 1,
+        'Final Full Review (QA)' => 9,
+        'Review/Approval for Project Closure / Video Manual' => 3,
+        'Project Closure' => 3,
+    ];
 
-        foreach ($tasks as $task) {
-            Progress::create([
-                'project_id' => $this->id,
-                'milestone_id' => $task->milestone_id, // Automatically get the corresponding phase
-                'phase_id' => $task->phase_id, // Automatically get the corresponding phase
-                'task_id' => $task->id,
-                'status' => '0', // Default status
-            ]);
-        }
+    $startDate = now(); // Start the project today
+
+    foreach ($milestones as $milestoneName => $duration) {
+        // Find or create the milestone
+        $milestone = Milestone::firstOrCreate(['name' => $milestoneName]);
+
+        // Calculate the end date based on duration
+        $endDate = $startDate->copy()->addDays($duration);
+
+        // Insert into Gantt Chart table
+        GanttChart::create([
+            'project_id' => $this->id,
+            'milestone_id' => $milestone->id,
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+            'progress' => 0, // Default progress
+        ]);
+
+        // Set the next milestone's start date as the current milestone's end date
+        $startDate = $endDate->copy()->addDay(); // Add a gap of 1 day before the next milestone
     }
+}
 
 
 

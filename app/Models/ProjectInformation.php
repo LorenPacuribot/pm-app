@@ -17,10 +17,11 @@ class ProjectInformation extends Model
         'project_id',
         'client',
         'contact_person',
-        'project_type',
+        'task_type_id' ,
         'platform',
         'purpose',
         'target_audience',
+        'project_startdate',
         'project_deadline',
         'project_scope',
         'developing_language',
@@ -57,4 +58,33 @@ class ProjectInformation extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
+    public function tasktype()
+    {
+        return $this->belongsTo(TaskType::class, 'task_type_id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saved(function ($projectInfo) {
+            if ($projectInfo->isDirty('project_startdate')) {
+                $firstMilestone = GanttChart::where('project_id', $projectInfo->project_id)
+                    ->orderBy('start_date', 'asc')
+                    ->first();
+
+                if ($firstMilestone) {
+                    $firstMilestone->start_date = $projectInfo->project_startdate;
+                    $firstMilestone->end_date = $firstMilestone->addBusinessDays(
+                        $firstMilestone->start_date,
+                        $firstMilestone->days,
+                        $firstMilestone->delay
+                    );
+                    $firstMilestone->save();
+                }
+            }
+        });
+
+}
 }

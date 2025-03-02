@@ -16,10 +16,11 @@ return new class extends Migration
             $table->foreignId('project_id')->constrained('projects')->onDelete('cascade');
             $table->string('client');
         $table->string('contact_person');
-        $table->string('project_type');
+        $table->foreignId('task_type_id')->constrained('task_types')->onDelete('cascade');
         $table->string('platform');
         $table->text('purpose');
         $table->string('target_audience');
+        $table->date('project_startdate');
         $table->date('project_deadline');
         $table->text('project_scope');
         $table->string('developing_language');
@@ -28,7 +29,7 @@ return new class extends Migration
         $table->string('resolution');
         $table->string('mobile_devices');
         $table->text('pages_to_test');
-        $table->text('pages_not_to_test');
+       $table->text('pages_not_to_test');
         $table->string('mockup_links')->nullable();
         $table->string('wireframe')->nullable();
         $table->string('erd')->nullable();

@@ -23,117 +23,235 @@ class ProjectInformationRelationManager extends RelationManager
     public function form(Form $form): Form
     {
         return $form
-        ->schema([
-            Forms\Components\Section::make('Project Information')
             ->schema([
-            Forms\Components\Section::make('Project Details')
-            ->schema([
-            // Select::make('project_id')
-            //     ->relationship('project', 'name')
-            //     ->required(),
-            TextInput::make('client')
-            ->required(),
-            TextInput::make('contact_person')
-            ->required(),
-           // TextInput::make('project_type'),
-            Select::make('project_type')
-            ->options([
-                'NSC Premium Theme' => 'NSC Premium Theme',
-                'NSC Custom' => 'NSC Custom',
-                'Premium Theme' => 'Premium Theme',
-                'Custom' => 'Custom',
-                'Maintenance' => 'Maintenance',
-            ])
-            ->required(),
-            // TextInput::make('platform')
-            // ->required(),
-            Select::make('platform')
-            ->options([
-                'Wordpress' => 'Wordpress',
-                'Laravel' => 'Laravel',
-            ])
-            ]),
-            Forms\Components\Section::make('Executive Summary ')
-            ->schema([
-            Textarea::make('purpose')
-            ->required(),
-            TextInput::make('target_audience')
-            ->required(),
-            DatePicker::make('project_deadline')
-            ->required(),
-            Textarea::make('project_scope')
-            ->required(),
-            TextInput::make('developing_language')
-            ->required(),
-            TextInput::make('server_requirement'),
+                Section::make('Project Information')
+                    ->schema([
+                        Section::make('Project Details')
+                            ->schema([
+                                TextInput::make('client')
+                                    ->label('Client')
+                                    ->required(),
 
-        ]),
-        Forms\Components\Section::make('Executive Summary ')
-        ->schema([
-            TextInput::make('browser'),
-            TextInput::make('resolution'),
-            TextInput::make('mobile_devices'),
-            Textarea::make('pages_to_test'),
-            Textarea::make('pages_not_to_test'),
+                                TextInput::make('contact_person')
+                                    ->label('Contact Person')
+                                    ->required(),
 
-        ])->columns(3),
-        Forms\Components\Section::make('Executive Summary ')
-            ->schema([
-            TextInput::make('mockup_links'),
-            TextInput::make('wireframe'),
-            TextInput::make('erd'),
-            TextInput::make('use_case_diagram'),
-            TextInput::make('flowchart'),
-            TextInput::make('final_template_design'),
-            TextInput::make('prototype_invision_mockup'),
-            TextInput::make('content_checklist'),
-            TextInput::make('sitemap'),
-            TextInput::make('project_drive_link'),
-            ]),
-        Forms\Components\Section::make('Executive Summary ')
-            ->schema([
-            TextInput::make('assigned_pm'),
-            TextInput::make('designer'),
-            TextInput::make('developer'),
-            TextInput::make('qa'),
-            ])->columns(4),
-            Section::make()
-            ->schema([
-            TextInput::make('test_site_link'),
-            TextInput::make('access'),
-            TextInput::make('livesite_link'),
-            ])->columns(3),
-            Section::make()
-            ->schema([
-            TextInput::make('wp'),
-            TextInput::make('ftp_cpanel'),
-            TextInput::make('db'),
-            TextInput::make('domain_registry'),
-            ])->columns(4),
+                                Select::make('task_type_id')
+                                    ->relationship('taskType', 'name') // Ensure correct model relation
+                                    ->label('Project Type')
+                                    ->required(),
 
-        ]),
-        ]);
+                                Select::make('platform')
+                                    ->options([
+                                        'WordPress' => 'WordPress',
+                                        'Laravel' => 'Laravel',
+                                    ])
+                                    ->label('Platform')
+                                    ->required(),
+                            ])
+                            ->columns(2), // Ensures side-by-side layout
+
+                        Section::make('Executive Summary')
+                            ->schema([
+                                Textarea::make('purpose')
+                                    ->label('Project Purpose')
+                                    ->required(),
+
+                                Textarea::make('project_scope')
+                                    ->label('Project Scope')
+                                    ->required(),
+
+                                Textarea::make('target_audience')
+                                    ->label('Target Audience')
+                                    ->required(),
+                                    ])
+                            ->columns(3),
+
+                            Section::make('Dates')
+                            ->schema([
+                                DatePicker::make('project_startdate')
+                                    ->label('Start Date')
+                                    ->required(),
+                                DatePicker::make('project_deadline')
+                                    ->label('Deadline')
+                                    ->required(),
+
+                            ])
+                            ->columns(2),
+
+                        Section::make('Technical Details')
+                            ->schema([
+                                TextInput::make('developing_language')
+                                    ->label('Programming Language')
+                                    ->required(),
+
+                                TextInput::make('server_requirement')
+                                    ->label('Server Requirements'),
+
+                                TextInput::make('browser')
+                                    ->label('Supported Browsers'),
+
+                                TextInput::make('resolution')
+                                    ->label('Screen Resolution'),
+
+                                TextInput::make('mobile_devices')
+                                    ->label('Mobile Devices Supported'),
+                                TextInput::make('pages_to_test')
+                                    ->label('Pages to test'),
+
+                                TextInput::make('pages_not_to_test')
+                                    ->label('Pages not to test'),
+                            ])
+                            ->columns(3),
+
+                        Section::make('Design & Development')
+                            ->schema([
+                                TextInput::make('mockup_links')
+                                    ->label('Mockup Links'),
+
+                                TextInput::make('wireframe')
+                                    ->label('Wireframe'),
+
+                                TextInput::make('erd')
+                                    ->label('ERD'),
+
+                                TextInput::make('use_case_diagram')
+                                    ->label('Use Case Diagram'),
+
+                                TextInput::make('flowchart')
+                                    ->label('Flowchart'),
+
+                                TextInput::make('final_template_design')
+                                    ->label('Final Template Design'),
+
+                                TextInput::make('prototype_invision_mockup')
+                                    ->label('Prototype/InVision Mockup'),
+
+                                TextInput::make('content_checklist')
+                                    ->label('Content Checklist'),
+
+                                TextInput::make('sitemap')
+                                    ->label('Sitemap'),
+
+
+                            ])
+                            ->columns(3),
+
+                            Section::make()
+                            ->schema([
+                            TextInput::make('project_drive_link')
+                                    ->label('Project Drive Link'),
+                            ]),
+                        Section::make('Project Team')
+                            ->schema([
+                                TextInput::make('assigned_pm')
+                                    ->label('Assigned PM'),
+
+                                TextInput::make('designer')
+                                    ->label('Designer'),
+
+                                TextInput::make('developer')
+                                    ->label('Developer'),
+
+                                TextInput::make('qa')
+                                    ->label('QA Engineer'),
+                            ])
+                            ->columns(4),
+
+                        Section::make('Project Links')
+                            ->schema([
+                                TextInput::make('test_site_link')
+                                    ->label('Test Site Link'),
+
+                                TextInput::make('access')
+                                    ->label('Access Credentials'),
+
+                                TextInput::make('livesite_link')
+                                    ->label('Live Site Link'),
+                            ])
+                            ->columns(3),
+
+                        Section::make('Hosting & Domain')
+                            ->schema([
+                                TextInput::make('wp')
+                                    ->label('WordPress Credentials'),
+
+                                TextInput::make('ftp_cpanel')
+                                    ->label('FTP/CPanel'),
+
+                                TextInput::make('db')
+                                    ->label('Database Access'),
+
+                                TextInput::make('domain_registry')
+                                    ->label('Domain Registry Info'),
+                            ])
+                            ->columns(4),
+                    ]),
+            ]);
     }
+
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('ProjectInformation')
-            ->columns([
-                TextColumn::make('project.name')->label('Project'),
-                TextColumn::make('client')->sortable()->searchable(),
-                TextColumn::make('contact_person')->sortable()->searchable(),
-                TextColumn::make('project_type')->sortable()->searchable(),
-                TextColumn::make('platform')->sortable()->searchable(),
-                TextColumn::make('project_deadline')->date(),
-                // TextColumn::make('overview')->limit(50),
-                // TextColumn::make('projectType'),
-                // TextColumn::make('platform'),
-                // TextColumn::make('methodology'),
-                // TextColumn::make('problem')->limit(50),
-                // TextColumn::make('solution')->limit(50),
-                // TextColumn::make('impact')->limit(50),
-            ])
+        ->recordTitleAttribute('ProjectInformation')
+        ->columns([
+            // TextColumn::make('project.name')
+            //     ->label('Project')
+            //     ->sortable()
+            //     ->searchable(),
+
+            TextColumn::make('client')
+                ->label('Client')
+                ->sortable()
+                ->searchable(),
+
+            TextColumn::make('contact_person')
+                ->label('Contact Person')
+                ->sortable()
+                ->searchable(),
+
+            TextColumn::make('taskType.name') // Ensure correct model relation
+                ->label('Project Type')
+                ->sortable()
+                ->searchable(),
+
+            TextColumn::make('platform')
+                ->label('Platform')
+                ->sortable()
+                ->searchable(),
+            TextColumn::make('project_startdate')
+                ->label('Start Date')
+                ->dateTime('F d, Y') // Example: "March 01, 2025"
+                ->sortable(),
+            TextColumn::make('project_deadline')
+                ->label('Deadline')
+                ->dateTime('F d, Y') // Example: "March 01, 2025"
+                ->sortable(),
+
+            // TextColumn::make('developing_language')
+            //     ->label('Programming Language')
+            //     ->sortable()
+            //     ->searchable(),
+
+            // TextColumn::make('server_requirement')
+            //     ->label('Server Requirements')
+            //     ->limit(50) // Limits text display to 50 characters
+            //     ->sortable()
+            //     ->searchable(),
+
+            // TextColumn::make('test_site_link')
+            //     ->label('Test Site')
+            //     ->limit(50)
+            //     ->sortable()
+            //     ->searchable(),
+
+            // TextColumn::make('livesite_link')
+            //     ->label('Live Site')
+            //     ->limit(50)
+            //     ->sortable()
+            //     ->searchable(),
+        ])
             ->filters([
                 Tables\Filters\TrashedFilter::make()
             ])
@@ -141,6 +259,7 @@ class ProjectInformationRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ForceDeleteAction::make(),

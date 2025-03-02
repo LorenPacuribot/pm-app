@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('project_id')->constrained('projects')->onDelete('cascade');
             $table->foreignId('milestone_id')->constrained('milestones')->onDelete('cascade');
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->integer('days');
-            $table->integer('delay')->default(0);
-            $table->decimal('budget', 15, 2);
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+            $table->integer('days')->nullable();
+            $table->integer('delay')->default(0)->nullable();
+            $table->decimal('budget', 15, 2)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -20,10 +20,11 @@ class TaskType extends Model
     //     return $this->belongsTo(Milestone::class);
     // }
 
-    // public function phase()
-    // {
-    //     return $this->belongsTo(Phase::class);
-    // }
+
+    public function projectinformation()
+    {
+        return $this->hasMany(ProjectInformation::class, 'task_type_id');
+    }
 
     public function messages()
     {
@@ -44,6 +45,12 @@ class TaskType extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    // public function project()
+    // {
+    //     return $this->hasMany(Project::class);
+    // }
+
 
 
 //     protected static function boot()

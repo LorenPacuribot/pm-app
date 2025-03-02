@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources;
 
+use id;
 use Filament\Forms;
 use Filament\Tables;
+
 use App\Models\Project;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
@@ -13,6 +15,7 @@ use App\Filament\Resources\ProjectResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationGroup;
 use App\Filament\Resources\ProjectResource\RelationManagers;
+
 
 class ProjectResource extends Resource
 {
@@ -81,21 +84,23 @@ class ProjectResource extends Resource
                 RelationManagers\ProjectInformationRelationManager::class,
                 RelationManagers\ProjectTeamRelationManager::class,
                 RelationManagers\GanntChartRelationManager::class,
-                RelationManagers\RoadblockRelationManager::class,
-            ]),
 
-            RelationGroup::make('Process', [
-                RelationManagers\ProgressRelationManager::class,
-                RelationManagers\CommunicationplanRelationManager::class,
-                RelationManagers\QuicklinkRelationManager::class,
             ]),
 
             RelationGroup::make('Progress', [
+                RelationManagers\ProgressRelationManager::class,
                 RelationManagers\TaskmonitoringstatusRelationManager::class,
                 RelationManagers\CpiRelationManager::class,
                 RelationManagers\SpiRelationManager::class,
             ]),
 
+
+            RelationGroup::make('Others', [
+
+                RelationManagers\CommunicationplanRelationManager::class,
+                RelationManagers\QuicklinkRelationManager::class,
+                RelationManagers\RoadblockRelationManager::class,
+            ]),
 
 
         ];
@@ -112,4 +117,7 @@ class ProjectResource extends Resource
             'edit' => Pages\EditProject::route('/{record}/edit'),
         ];
     }
+
+
+
 }
