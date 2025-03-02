@@ -13,9 +13,14 @@ return new class extends Migration
     {
         Schema::create('task_types', function (Blueprint $table) {
             $table->id();
+            // $table->foreignId('milestone_id')->constrained('milestones')->onDelete('cascade');
+            // $table->foreignId('phase_id')->constrained('phases')->onDelete('cascade');
+            $table->string('name');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
+
 
     /**
      * Reverse the migrations.

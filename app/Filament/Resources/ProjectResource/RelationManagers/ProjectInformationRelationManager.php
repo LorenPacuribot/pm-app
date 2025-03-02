@@ -7,6 +7,7 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
@@ -92,16 +93,23 @@ class ProjectInformationRelationManager extends RelationManager
         Forms\Components\Section::make('Executive Summary ')
             ->schema([
             TextInput::make('assigned_pm'),
+            TextInput::make('designer'),
             TextInput::make('developer'),
             TextInput::make('qa'),
+            ])->columns(4),
+            Section::make()
+            ->schema([
             TextInput::make('test_site_link'),
             TextInput::make('access'),
             TextInput::make('livesite_link'),
+            ])->columns(3),
+            Section::make()
+            ->schema([
             TextInput::make('wp'),
             TextInput::make('ftp_cpanel'),
             TextInput::make('db'),
             TextInput::make('domain_registry'),
-            ]),
+            ])->columns(4),
 
         ]),
         ]);

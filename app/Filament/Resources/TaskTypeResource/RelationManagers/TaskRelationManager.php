@@ -1,40 +1,25 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\TaskTypeResource\RelationManagers;
 
 use Filament\Forms;
-use App\Models\Task;
 use Filament\Tables;
 use App\Models\Phase;
 use Filament\Forms\Form;
 use App\Models\Milestone;
 use Filament\Tables\Table;
-use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\TaskResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\TaskResource\RelationManagers;
+use Filament\Resources\RelationManagers\RelationManager;
 
-class TaskResource extends Resource
+class TaskRelationManager extends RelationManager
 {
-    protected static ?string $model = Task::class;
+    protected static string $relationship = 'tasks';
 
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
-
-    protected static ?string $navigationLabel ='Tasks';
-
-    protected static ?string $slug = 'tasks';
-
-    protected static ?string $navigationGroup = 'PROCESS DETAILS';
-
-    protected static ?int $navigationSort = 3;
-
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form
-        ->schema([
-            Forms\Components\Section::make('Tasks')
             ->schema([
                 Select::make('phase_id')
                     ->label('Phase')
@@ -44,29 +29,35 @@ class TaskResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('description')
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('documentNeeded')
-                    ->columnSpanFull(),
-            ])
-        ]);
+                    Forms\Components\TextInput::make('instructions')
+                //    ->required()
+                    ->maxLength(255),
+                    Forms\Components\TextInput::make('links')
+                    //    ->required()
+                        ->maxLength(255),
+            ]);
     }
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
+            ->recordTitleAttribute('Task')
             ->columns([
+                Tables\Columns\TextColumn::make('Milestone')
+                ->numeric()
+                ->sortable()
+                ->getStateUsing(function ($record) {
+                    return Milestone::find($record->milestone_id)->name;
+                })
+                ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('Phase')
                     ->numeric()
                     ->sortable()
                     ->getStateUsing(function ($record) {
                         return Phase::find($record->phase_id)->name;
-                    })
-                    ->toggleable(isToggledHiddenByDefault: true),
+                }),
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable()
-                    ->copyable(),
-                    Tables\Columns\TextColumn::make('description')
+                     ->sortable()
                     ->searchable()
                     ->copyable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -81,8 +72,10 @@ class TaskResource extends Resource
             ->filters([
                 //
             ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
+            ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -91,21 +84,5 @@ class TaskResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListTasks::route('/'),
-            'create' => Pages\CreateTask::route('/create'),
-            'edit' => Pages\EditTask::route('/{record}/edit'),
-        ];
     }
 }

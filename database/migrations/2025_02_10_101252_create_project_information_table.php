@@ -40,6 +40,7 @@ return new class extends Migration
         $table->text('sitemap')->nullable();
         $table->string('project_drive_link')->nullable();
         $table->string('assigned_pm');
+        $table->string('designer');
         $table->string('developer');
         $table->string('qa');
         $table->string('test_site_link')->nullable();

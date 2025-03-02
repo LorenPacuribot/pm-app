@@ -27,5 +27,10 @@ class Milestone extends Model
     {
         return $this->hasManyThrough(Project::class, Phase::class);
     }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }
 

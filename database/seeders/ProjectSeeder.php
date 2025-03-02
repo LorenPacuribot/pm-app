@@ -1,25 +1,31 @@
 <?php
 
 namespace Database\Seeders;
+
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class TaskSeeder extends Seeder
+class ProjectSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('tasks')->insert([
+        DB::table('projects')->insert([
             [
                 'id' => 1,
-                'milestone_id'=> 1,
-                'phase_id'=> 1,
-                'task_type_id'=> 1,
-                'name' => 'task test',
+                'name' => 'Project ABC',
+                'created_at' => Carbon::parse('2025-02-11 14:20:35'),
+                'updated_at' => Carbon::parse('2025-02-11 14:20:35'),
+                'deleted_at' => null,
+            ],
+
+            [
+                'id' => 2,
+                'name' => 'Project XYZ',
                 'created_at' => Carbon::parse('2025-02-11 14:20:35'),
                 'updated_at' => Carbon::parse('2025-02-11 14:20:35'),
                 'deleted_at' => null,
@@ -27,5 +33,3 @@ class TaskSeeder extends Seeder
         ]);
     }
 }
-
-

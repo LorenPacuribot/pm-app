@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('milestone_id')->constrained('milestones')->onDelete('cascade');
             $table->foreignId('phase_id')->constrained('phases')->onDelete('cascade');
+            $table->foreignId('task_type_id')->constrained('task_types')->onDelete('cascade');
+           // $table->foreignId('phase_id')->constrained('phases')->onDelete('cascade');
             $table->string('name');
-            $table->text('description')->nullable();
-            $table->text('documentNeeded')->nullable();
+            $table->text('instructions')->nullable();
+            $table->text('links')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
