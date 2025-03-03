@@ -20,9 +20,12 @@ class TaskmonitoringstatusRelationManager extends RelationManager
 {
     protected static string $relationship = 'taskmonitoringstatus';
 
+    protected static bool $isLazy = false;
+
     public function form(Form $form): Form
     {
         return $form
+
         ->schema([
             Grid::make(2)
                 ->schema([
@@ -43,10 +46,9 @@ class TaskmonitoringstatusRelationManager extends RelationManager
                     DatePicker::make('actual_closure'),
                     Select::make('status')
                         ->options([
-                            'Pending' => 'Pending',
-                            'Ongoing' => 'Ongoing',
-                            'Completed' => 'Completed',
-                            'Delayed' => 'Delayed',
+                            '0' => 'Ongoing',
+                            '1' => 'Closed',
+
                         ])
                         ->required(),
                     TextInput::make('current_phase')
@@ -74,12 +76,19 @@ class TaskmonitoringstatusRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('taskmonitoringstatus')
+            ->heading('Task Monitoring Status ✅')
             ->columns([
-                TextColumn::make('project.name')
-                ->searchable()
-                ->sortable()
-                ->toggleable(isToggledHiddenByDefault: true)
-                ->label('Project'),
+                TextColumn::make('project.name')->label('Project'),
+                TextColumn::make('task_type'),
+                TextColumn::make('team'),
+                TextColumn::make('activation_date')->date(),
+                TextColumn::make('original_closure')->date(),
+                TextColumn::make('status')->badge(),
+                TextColumn::make('current_phase'),
+                TextColumn::make('current_status'),
+                TextColumn::make('cpi'),
+                TextColumn::make('spi'),
+                TextColumn::make('delay_days'),
             ])
             ->filters([
                 //
@@ -88,8 +97,11 @@ class TaskmonitoringstatusRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ForceDeleteAction::make(),
+                Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -15,7 +15,7 @@ class Progress extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'project_id','milestone_id','phase_id', 'task_id', 'status',
+        'project_id','task_type_id','milestone_id','phase_id', 'task_id', 'status','qoute_from_sales','time_consumed',
     ];
 
     public function project()

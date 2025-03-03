@@ -82,13 +82,13 @@ class ProjectResource extends Resource
 
             RelationGroup::make('Information', [
                 RelationManagers\ProjectInformationRelationManager::class,
-                RelationManagers\ProjectTeamRelationManager::class,
+              //  RelationManagers\ProjectTeamRelationManager::class,
                 RelationManagers\GanntChartRelationManager::class,
-
+                RelationManagers\ProgressRelationManager::class,
             ]),
 
             RelationGroup::make('Progress', [
-                RelationManagers\ProgressRelationManager::class,
+
                 RelationManagers\TaskmonitoringstatusRelationManager::class,
                 RelationManagers\CpiRelationManager::class,
                 RelationManagers\SpiRelationManager::class,

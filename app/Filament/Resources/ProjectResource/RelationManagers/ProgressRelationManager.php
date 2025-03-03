@@ -16,7 +16,7 @@ class ProgressRelationManager extends RelationManager
 {
     protected static string $relationship = 'progress';
 
-
+    protected static bool $isLazy = false;
 
     public function form(Form $form): Form
     {
@@ -46,6 +46,7 @@ class ProgressRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('Progress')
+            ->heading('Progress ✅')
             ->columns([
                 TextColumn::make('project.name')
                 ->searchable()
@@ -55,15 +56,21 @@ class ProgressRelationManager extends RelationManager
                 TextColumn::make('milestone.name')
                 ->searchable()
                 ->sortable()
+                ->toggleable(isToggledHiddenByDefault: true)
                 ->label('Milestone'),
                 TextColumn::make('phase.name')
                 ->searchable()
                 ->sortable()
+                ->toggleable(isToggledHiddenByDefault: true)
                 ->label('Phase'),
                 TextColumn::make('task.name')
                 ->searchable()
                 ->sortable()
                 ->label('Task'),
+                TextColumn::make('qoute_from_sales')
+                ->label('Qoute from Sales')
+                ->searchable()
+                ->sortable(),
                 TextColumn::make('status')
                 ->label('Status')
                 ->searchable()
@@ -73,23 +80,33 @@ class ProgressRelationManager extends RelationManager
                 ->color(fn (string $state): string => match ($state) {
                    '0' => 'warning',
                    '1' => 'success',
-    })
+                }),
+                   TextColumn::make('time_consumed')
+                   ->label('Time Consumed')
+                   ->searchable()
+                   ->sortable(),
+
+
+
 
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make()
             ])
             ->headerActions([
-               // Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ForceDeleteAction::make(),
                 Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
+
                 Tables\Actions\BulkActionGroup::make([
+
                     Tables\Actions\DeleteBulkAction::make(),
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),

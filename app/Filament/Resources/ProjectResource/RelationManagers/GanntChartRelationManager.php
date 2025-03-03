@@ -18,6 +18,8 @@ class GanntChartRelationManager extends RelationManager
 {
     protected static string $relationship = 'ganntcharts';
 
+    protected static bool $isLazy = false;
+
     public function form(Form $form): Form
     {
         return $form
@@ -28,16 +30,16 @@ class GanntChartRelationManager extends RelationManager
                 // ->required()
                 // ->numeric()
                 // ->label('Project ID'),
-            TextInput::make('milestone_id')
-                ->required()
-                ->numeric()
-                ->label('Milestone ID'),
-            DatePicker::make('start_date')
-                ->required()
-                ->label('Start Date'),
-            DatePicker::make('end_date')
-                ->required()
-                ->label('End Date'),
+            // TextInput::make('milestone_id')
+            //     ->required()
+            //     ->numeric()
+            //     ->label('Milestone ID'),
+            // DatePicker::make('start_date')
+            //     ->required()
+            //     ->label('Start Date'),
+            // DatePicker::make('end_date')
+            //     ->required()
+            //     ->label('End Date'),
             TextInput::make('days')
                 ->required()
                 ->numeric()
@@ -58,6 +60,7 @@ class GanntChartRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('ganntchart')
+            ->heading('Gannt Chart ⭐')
             ->columns([
                 TextColumn::make('project.name')
                 ->searchable()
@@ -89,11 +92,14 @@ class GanntChartRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+              //  Tables\Actions\CreateAction::make(),
             ])
             ->actions([
+              //  Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-               // Tables\Actions\DeleteAction::make(),
+                // Tables\Actions\DeleteAction::make(),
+                // Tables\Actions\ForceDeleteAction::make(),
+                // Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

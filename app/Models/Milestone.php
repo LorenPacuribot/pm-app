@@ -10,6 +10,7 @@ class Milestone extends Model
     use HasFactory;
 
     protected $fillable = [
+      //  'project_id',
         'name',
     ];
 

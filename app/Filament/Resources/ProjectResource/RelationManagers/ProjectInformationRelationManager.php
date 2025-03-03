@@ -20,6 +20,8 @@ class ProjectInformationRelationManager extends RelationManager
 {
     protected static string $relationship = 'projectInformation';
 
+    protected static bool $isLazy = false;
+
     public function form(Form $form): Form
     {
         return $form
@@ -195,6 +197,7 @@ class ProjectInformationRelationManager extends RelationManager
     {
         return $table
         ->recordTitleAttribute('ProjectInformation')
+        ->heading('Project Information 😊')
         ->columns([
             // TextColumn::make('project.name')
             //     ->label('Project')

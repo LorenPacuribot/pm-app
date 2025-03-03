@@ -15,6 +15,10 @@ class CpiRelationManager extends RelationManager
 {
     protected static string $relationship = 'cpi';
 
+    protected static ?string $modelLabel = 'CPI';
+
+    protected static bool $isLazy = false;
+
     public function form(Form $form): Form
     {
         return $form
@@ -29,22 +33,31 @@ class CpiRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('cpi')
+            ->heading('CPI 💸')
             ->columns([
-                TextColumn::make('project.name')
-                ->searchable()
-                ->sortable()
-                ->toggleable(isToggledHiddenByDefault: true)
-                ->label('Project'),
+                // TextColumn::make('project.name')
+                // ->searchable()
+                // ->sortable()
+                // ->toggleable(isToggledHiddenByDefault: true)
+                // ->label('Project'),
+               // TextColumn::make('project.name')->label('Project'),
+                TextColumn::make('estimates_from_sales'),
+                TextColumn::make('time_consumed_by_team'),
+                TextColumn::make('cpi_status')->badge(),
+                TextColumn::make('cpi_value'),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+               // Tables\Actions\CreateAction::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ForceDeleteAction::make(),
+                Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

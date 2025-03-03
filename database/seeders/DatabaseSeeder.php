@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         TaskTypeSeeder::class,
         MessageSeeder::class,
         TaskCardSeeder::class,
-        ProjectSeeder::class,
+      //  ProjectSeeder::class,
         TaskSeeder::class,
         ]);
     }

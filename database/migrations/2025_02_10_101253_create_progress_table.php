@@ -11,12 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
+
         Schema::create('progress', function (Blueprint $table) {
             $table->id();
             $table->foreignId('project_id')->constrained('projects')->onDelete('cascade');
+            $table->foreignId('task_type_id')->constrained('task_types')->onDelete('cascade');
             $table->foreignId('milestone_id')->constrained('milestones')->onDelete('cascade');
             $table->foreignId('phase_id')->constrained('phases')->onDelete('cascade');
             $table->foreignId('task_id')->constrained('tasks')->onDelete('cascade');
+            $table->integer('qoute_from_sales')->nullable();
+            $table->integer('time_consumed')->nullable();
             $table->boolean('status')->default(false);;
             $table->timestamps();
             $table->softDeletes();

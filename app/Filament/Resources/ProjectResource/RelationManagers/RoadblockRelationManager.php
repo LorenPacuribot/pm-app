@@ -18,6 +18,8 @@ class RoadblockRelationManager extends RelationManager
 {
     protected static string $relationship = 'roadblock';
 
+    protected static bool $isLazy = false;
+
     public function form(Form $form): Form
     {
         return $form
@@ -45,6 +47,7 @@ class RoadblockRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('roadblock')
+            ->heading('Roadblock 🪨')
             ->columns([
                 Tables\Columns\TextColumn::make('project_id')
                 ->sortable()
@@ -86,8 +89,11 @@ class RoadblockRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ForceDeleteAction::make(),
+                Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
