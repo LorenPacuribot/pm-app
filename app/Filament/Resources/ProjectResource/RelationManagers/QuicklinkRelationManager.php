@@ -21,6 +21,8 @@ class QuicklinkRelationManager extends RelationManager
     public function form(Form $form): Form
     {
         return $form
+        ->schema([
+            Forms\Components\Section::make('Quick Links')
             ->schema([
 
                             TextInput::make('drive'),
@@ -56,7 +58,8 @@ class QuicklinkRelationManager extends RelationManager
                             TextInput::make('approval_project_closure'),
                             TextInput::make('livesite_clients_comments'),
                             TextInput::make('project_closure'),
-            ]);
+            ])
+        ]);
     }
 
     public function table(Table $table): Table
@@ -65,18 +68,18 @@ class QuicklinkRelationManager extends RelationManager
             ->recordTitleAttribute('quicklink')
             ->heading('Quick Link 🔗')
             ->columns([
-                TextColumn::make('project.name')->sortable()->searchable(),
-                TextColumn::make('drive')->limit(30),
-                TextColumn::make('figma')->limit(30),
-                TextColumn::make('devsite')->limit(30),
-                TextColumn::make('livesite')->limit(30),
-                TextColumn::make('project_plan')->limit(30),
-                TextColumn::make('project_management')->limit(30),
-                TextColumn::make('slicing_development')->limit(30),
-                TextColumn::make('final_project_documentation')->limit(30),
-                TextColumn::make('project_uploading_launching')->limit(30),
-                TextColumn::make('approval_project_closure')->limit(30),
-                TextColumn::make('created_at')->dateTime()->sortable(),
+              //  TextColumn::make('project.name')->sortable()->searchable()->copyable(),
+                TextColumn::make('drive')->copyable(),
+                TextColumn::make('figma')->copyable(),
+                TextColumn::make('devsite')->copyable(),
+                TextColumn::make('livesite')->copyable(),
+                TextColumn::make('project_plan')->copyable(),
+                TextColumn::make('project_management')->copyable(),
+                TextColumn::make('slicing_development')->copyable(),
+                TextColumn::make('final_project_documentation')->copyable(),
+                TextColumn::make('project_uploading_launching')->copyable(),
+                TextColumn::make('approval_project_closure')->copyable(),
+
             ])
             ->filters([
                 //

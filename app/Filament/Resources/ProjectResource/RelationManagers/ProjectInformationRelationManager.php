@@ -39,7 +39,7 @@ class ProjectInformationRelationManager extends RelationManager
                                     ->required(),
 
                                 Select::make('task_type_id')
-                                    ->relationship('taskType', 'name') // Ensure correct model relation
+                                    ->relationship('tasktypes', 'name') // Ensure correct model relation
                                     ->label('Project Type')
                                     ->required(),
 
@@ -156,7 +156,7 @@ class ProjectInformationRelationManager extends RelationManager
                                     ->label('Developer'),
 
                                 TextInput::make('qa')
-                                    ->label('QA Engineer'),
+                                    ->label('Quality Assurance'),
                             ])
                             ->columns(4),
 
@@ -196,6 +196,7 @@ class ProjectInformationRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
+        ->paginated(false)
         ->recordTitleAttribute('ProjectInformation')
         ->heading('Project Information 😊')
         ->columns([
@@ -214,7 +215,7 @@ class ProjectInformationRelationManager extends RelationManager
                 ->sortable()
                 ->searchable(),
 
-            TextColumn::make('taskType.name') // Ensure correct model relation
+            TextColumn::make('tasktypes.name') // Ensure correct model relation
                 ->label('Project Type')
                 ->sortable()
                 ->searchable(),

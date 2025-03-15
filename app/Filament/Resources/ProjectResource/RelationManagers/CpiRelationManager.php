@@ -32,6 +32,7 @@ class CpiRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
+        ->paginated(false)
             ->recordTitleAttribute('cpi')
             ->heading('CPI 💸')
             ->columns([
@@ -43,7 +44,17 @@ class CpiRelationManager extends RelationManager
                // TextColumn::make('project.name')->label('Project'),
                 TextColumn::make('estimates_from_sales'),
                 TextColumn::make('time_consumed_by_team'),
-                TextColumn::make('cpi_status')->badge(),
+                TextColumn::make('cpi_status')
+                ->badge()
+                ->color(fn ($record) =>
+                    $record->cpi_status == 1 ? 'success' :
+                    ($record->cpi_status > 1 ? 'warning' : 'danger')
+                )
+                ->formatStateUsing(fn ($state) =>
+                    $state == 1 ? 'On Budget' :
+                    ($state > 1 ? 'Over Budget' : 'Under Budget' )
+                ),
+
                 TextColumn::make('cpi_value'),
             ])
             ->filters([
@@ -53,11 +64,11 @@ class CpiRelationManager extends RelationManager
                // Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ForceDeleteAction::make(),
-                Tables\Actions\RestoreAction::make(),
+                // Tables\Actions\ViewAction::make(),
+                // Tables\Actions\EditAction::make(),
+                // Tables\Actions\DeleteAction::make(),
+                // Tables\Actions\ForceDeleteAction::make(),
+                // Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

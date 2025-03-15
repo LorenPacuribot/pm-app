@@ -13,13 +13,14 @@ class TaskMonitoringStatus extends Model
 
     protected $fillable = [
         'project_id',
-        'task_type',
+      'task_type_id' ,
         'team',
         'activation_date',
         'original_closure',
         'extended_closure',
         'actual_closure',
         'status',
+         'current_milestone',
         'current_phase',
         'current_status',
         'cpi',
@@ -34,5 +35,11 @@ class TaskMonitoringStatus extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
+    public function tasktypes()
+    {
+        return $this->belongsTo(TaskType::class, 'task_type_id');
+    }
+
 
 }

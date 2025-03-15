@@ -14,13 +14,14 @@ return new class extends Migration
         Schema::create('task_monitoring_statuses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('project_id')->constrained('projects')->onDelete('cascade');
-            $table->string('task_type');
+            $table->foreignId('task_type_id')->constrained('task_types')->onDelete('cascade');
             $table->string('team');
             $table->date('activation_date');
             $table->date('original_closure');
             $table->date('extended_closure')->nullable();
             $table->date('actual_closure')->nullable();
             $table->string('status');
+            $table->string('current_milestone');
             $table->string('current_phase');
             $table->string('current_status');
             $table->unsignedBigInteger('cpi');

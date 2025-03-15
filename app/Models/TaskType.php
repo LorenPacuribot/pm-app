@@ -46,6 +46,10 @@ class TaskType extends Model
         return $this->hasMany(Task::class);
     }
 
+    public function taskmonitoringstatus()
+    {
+        return $this->hasMany(TaskMonitoringStatus::class);
+    }
     // public function project()
     // {
     //     return $this->hasMany(Project::class);

@@ -134,11 +134,11 @@ class Project extends Model
 //         // Set the next milestone's start date as the current milestone's end date
 //         $startDate = $endDate->copy()->addDay(); // Add a gap of 1 day before the next milestone
 //     }
-// }
-
-
-
-
-
-
 }
+
+
+
+
+
+
+

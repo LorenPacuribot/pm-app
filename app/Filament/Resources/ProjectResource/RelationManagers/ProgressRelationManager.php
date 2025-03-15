@@ -8,6 +8,7 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -33,6 +34,10 @@ class ProgressRelationManager extends RelationManager
             // Forms\Components\TextInput::make('status')
             //     ->required()
             //     ->maxLength(255),
+            TextInput::make('budget_from_sales')
+            ->label('Budget from Sales'),
+            TextInput::make('time_consumed_by_team')
+            ->label('Time consumed'),
                 Select::make('status')
                 ->options([
                     '0' => 'Pending',
@@ -67,7 +72,7 @@ class ProgressRelationManager extends RelationManager
                 ->searchable()
                 ->sortable()
                 ->label('Task'),
-                TextColumn::make('qoute_from_sales')
+                TextColumn::make('budget_from_sales')
                 ->label('Qoute from Sales')
                 ->searchable()
                 ->sortable(),
@@ -81,7 +86,7 @@ class ProgressRelationManager extends RelationManager
                    '0' => 'warning',
                    '1' => 'success',
                 }),
-                   TextColumn::make('time_consumed')
+                   TextColumn::make('time_consumed_by_team')
                    ->label('Time Consumed')
                    ->searchable()
                    ->sortable(),
@@ -97,9 +102,9 @@ class ProgressRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+              //  Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+              //  Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ForceDeleteAction::make(),
                 Tables\Actions\RestoreAction::make(),
             ])

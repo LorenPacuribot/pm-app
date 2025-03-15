@@ -19,9 +19,10 @@ return new class extends Migration
             $table->foreignId('milestone_id')->constrained('milestones')->onDelete('cascade');
             $table->foreignId('phase_id')->constrained('phases')->onDelete('cascade');
             $table->foreignId('task_id')->constrained('tasks')->onDelete('cascade');
-            $table->integer('qoute_from_sales')->nullable();
-            $table->integer('time_consumed')->nullable();
-            $table->boolean('status')->default(false);;
+            $table->decimal('budget_from_sales', 15, 2)->nullable();
+            $table->decimal('time_consumed_by_team', 15, 2)->nullable();
+            $table->boolean('status')->default(false);
+            $table->date('actual_end_date')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -48,6 +48,9 @@ class GanntChartRelationManager extends RelationManager
                 ->numeric()
                 ->label('Delay')
                 ->default(0),
+            DatePicker::make('actual_end_date')
+                ->required()
+                ->label('Actual End Date'),
             TextInput::make('budget')
                 ->required()
                 ->numeric()
@@ -85,8 +88,8 @@ class GanntChartRelationManager extends RelationManager
                 TextColumn::make('delay')
                 ->label('Delays'),
 
-                TextColumn::make('budget')
-                ->label('Budget'),
+                TextColumn::make('actual_end_date')
+                ->label('Actual End Date'),
             ])
             ->filters([
                 //

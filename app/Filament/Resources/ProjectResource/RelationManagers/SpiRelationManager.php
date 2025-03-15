@@ -30,6 +30,7 @@ class SpiRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
+        ->paginated(false)
             ->recordTitleAttribute('spi')
             ->heading('SPI 🗓️')
             ->columns([
@@ -42,7 +43,16 @@ class SpiRelationManager extends RelationManager
              //   TextColumn::make('project.name')->label('Project'),
                 TextColumn::make('actual_task_done'),
                 TextColumn::make('task_needed_to_be_done'),
-                TextColumn::make('spi_status')->badge(),
+                TextColumn::make('spi_status')
+                ->badge()
+                ->color(fn ($record) =>
+                    $record->spi_status == 1 ? 'success' :
+                    ($record->spi_status > 1 ? 'warning' : 'danger')
+                )
+                ->formatStateUsing(fn ($state) =>
+                    $state == 1 ? 'On Schedule' :
+                    ($state > 1 ? 'Ahead of Schedule' : 'Behind Schedule' )
+                ),
                 TextColumn::make('spi_value'),
             ])
             ->filters([
@@ -52,11 +62,11 @@ class SpiRelationManager extends RelationManager
             //    Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ForceDeleteAction::make(),
-                Tables\Actions\RestoreAction::make(),
+                // Tables\Actions\ViewAction::make(),
+                // Tables\Actions\EditAction::make(),
+                // Tables\Actions\DeleteAction::make(),
+                // Tables\Actions\ForceDeleteAction::make(),
+                // Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

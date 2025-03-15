@@ -60,10 +60,11 @@ class ProjectInformation extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function tasktype()
+    public function tasktypes()
     {
         return $this->belongsTo(TaskType::class, 'task_type_id');
     }
+
 
 //     protected static function boot()
 //     {
@@ -98,8 +99,8 @@ protected static function boot()
         $projectInformation->createGanttChartEntries();
          $projectInformation->createProgressEntries();
          $projectInformation->createCPIEntries();
-        // $projectInformation->createSPIEntries();
-// $projectInformation->createTaskMonitoringEntries();
+         $projectInformation->createSPIEntries();
+         $projectInformation->createTaskMonitoringEntries();
         // $projectInformation->createCommunicationPlanEntries();
     });
 
@@ -114,6 +115,8 @@ protected static function boot()
 
         $projectInformation->createGanttChartEntries();
         $projectInformation->createProgressEntries(); // Re-run the creation method
+        $projectInformation->createCPIEntries();
+        $projectInformation->createSPIEntries();
     });
 
 
@@ -124,6 +127,10 @@ protected static function boot()
     });
 
 
+    static::saved(function ($projectInformation) {
+        $projectInformation->updateTaskMonitoringStatus();
+
+    });
 
 
 }
@@ -150,6 +157,7 @@ public function createGanttChartEntries()
             'days' => 1,
             'delay' => 0,
             'budget' => 0,
+            'actual_end_date'=> $endDate,
         ]);
 
         $startDate = $endDate->copy()->addDay();
@@ -273,8 +281,10 @@ public function updateGanttChartStartDate()
 
 public function createCPIEntries()
 {
+    CPI::where('project_id', $this->project_id)->delete();
+
     $budget = Progress::where('project_id', $this->project_id)->sum('budget_from_sales');
-    $timeConsumed = Progress::where('project_id', $this->project_id)->sum('time_consumed');
+    $timeConsumed = Progress::where('project_id', $this->project_id)->sum('time_consumed_by_team');
     CPI::create([
         'project_id' => $this->project_id,
         'estimates_from_sales' => $budget,
@@ -286,6 +296,9 @@ public function createCPIEntries()
 
 public function createSPIEntries()
 {
+
+    SPI::where('project_id', $this->project_id)->delete();
+
     $actualTasks = Progress::where('project_id', $this->project_id)->where('status', 1)->count();
     $totalTasks = Progress::where('project_id', $this->project_id)->count();
     SPI::create([
@@ -301,22 +314,37 @@ public function createTaskMonitoringEntries()
 {
     TaskMonitoringStatus::create([
         'project_id' => $this->project_id,
-        'task_type' => $this->task_type_id,
+       'task_type_id' => $this->task_type_id,
         'team' => $this->assigned_pm,
         'activation_date' => $this->project_startdate,
         'original_closure' => $this->project_deadline,
         'extended_closure' => GanttChart::where('project_id', $this->project_id)->orderBy('end_date', 'desc')->value('end_date'),
         'actual_closure' => GanttChart::where('project_id', $this->project_id)->orderBy('end_date', 'desc')->value('end_date'),
         'status' => 0,
-        'current_phase' => Phase::where('id', Progress::where('project_id', $this->project_id)->where('status', 1)->orderBy('phase_id', 'desc')->value('phase_id'))->first()->name ?? 'Initial',
+        'current_milestone' => Milestone::where('id', Progress::where('project_id', $this->project_id)->where('status', 1)->orderBy('milestone_id', 'desc')->value('milestone_id'))->first()->name ?? 'Project Activation',
+        'current_phase' => Phase::where('id', Progress::where('project_id', $this->project_id)->where('status', 1)->orderBy('phase_id', 'desc')->value('phase_id'))->first()->name ?? 'Project Activation',
         'current_status' => Task::where('id', Progress::where('project_id', $this->project_id)->where('status', 1)->orderBy('task_id', 'desc')->value('task_id'))->first()->name ?? 'Not Started',
-        'cpi' => CPI::where('project_id', $this->project_id)->value('cpi_value'),
-        'spi' => SPI::where('project_id', $this->project_id)->value('spi_value'),
+        'cpi' => CPI::where('project_id', $this->project_id)->value('cpi_value') ?? 0,
+        'spi' => SPI::where('project_id', $this->project_id)->value('spi_value')?? 0,
         'original_days' => GanttChart::where('project_id', $this->project_id)->sum('days'),
         'actual_days' => GanttChart::where('project_id', $this->project_id)->sum('days') + GanttChart::where('project_id', $this->project_id)->sum('delay'),
         'delay_days' => GanttChart::where('project_id', $this->project_id)->sum('delay'),
         'reason' => '',
     ]);
+}
+public function updateTaskMonitoringStatus()
+{
+    $taskMonitoring = TaskMonitoringStatus::where('project_id', $this->id)->latest()->first();
+
+    if ($taskMonitoring) {
+        $taskMonitoring->update([
+            'current_milestone' => Milestone::where('id', Progress::where('project_id', $this->project_id)->where('status', 1)->orderBy('milestone_id', 'desc')->value('milestone_id'))->first()->name ?? 'Project Activation',
+            'current_phase' => Phase::where('id', Progress::where('project_id', $this->id)->where('status', 1)->orderBy('phase_id', 'desc')->value('phase_id'))->first()->name ??  'Project Activation',
+            'current_status' => Task::where('id', Progress::where('project_id', $this->id)->where('status', 1)->orderBy('task_id', 'desc')->value('task_id'))->first()->name ?? 'Not Started',
+            'cpi' => CPI::where('project_id', $this->id)->value('cpi_value') ?? 1,
+            'spi' => SPI::where('project_id', $this->id)->value('spi_value') ?? 1,
+        ]);
+    }
 }
 
 // public function createCommunicationPlanEntries()

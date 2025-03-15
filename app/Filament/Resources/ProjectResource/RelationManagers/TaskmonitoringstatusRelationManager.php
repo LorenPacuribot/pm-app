@@ -27,14 +27,15 @@ class TaskmonitoringstatusRelationManager extends RelationManager
         return $form
 
         ->schema([
-            Grid::make(2)
-                ->schema([
+            Forms\Components\Section::make('Task Monitoring')
+               ->schema([
                     Select::make('project_id')
                         ->relationship('project', 'name')
                         ->required(),
-                    TextInput::make('task_type')
-                        ->required()
-                        ->maxLength(255),
+                        Select::make('task_type_id')
+                        ->relationship('tasktypes', 'name')
+                        ->nullable(),
+
                     TextInput::make('team')
                         ->required()
                         ->maxLength(255),
@@ -51,6 +52,8 @@ class TaskmonitoringstatusRelationManager extends RelationManager
 
                         ])
                         ->required(),
+                        TextInput::make('current_milestone')
+                        ->maxLength(255),
                     TextInput::make('current_phase')
                         ->maxLength(255),
                     TextInput::make('current_status')
@@ -75,31 +78,48 @@ class TaskmonitoringstatusRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
+        ->paginated(false)
             ->recordTitleAttribute('taskmonitoringstatus')
             ->heading('Task Monitoring Status ✅')
             ->columns([
-                TextColumn::make('project.name')->label('Project'),
-                TextColumn::make('task_type'),
-                TextColumn::make('team'),
+            //    TextColumn::make('project.name')->label('Project'),
+
+                TextColumn::make('tasktypes.name')->label('Project Type'),
+                TextColumn::make('team')->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('activation_date')->date(),
                 TextColumn::make('original_closure')->date(),
-                TextColumn::make('status')->badge(),
-                TextColumn::make('current_phase'),
+                TextColumn::make('extended_closure')->date()->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('actual_closure')->date()->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('status')
+                ->label('Status')
+               // ->searchable()
+              //  ->sortable()
+                ->formatStateUsing(fn ($state) => $state == '1' ? 'Closed' : 'Ongoing')
+                ->badge()
+                ->color(fn (string $state): string => match ($state) {
+                   '0' => 'warning',
+                   '1' => 'success',
+                }),
+                TextColumn::make('current_milestone')->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('current_phase')->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('current_status'),
-                TextColumn::make('cpi'),
-                TextColumn::make('spi'),
+                TextColumn::make('cpi')->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('spi')->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('original_days')->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('actual_days')->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('delay_days'),
+                TextColumn::make('reason')->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+               // Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+              //  Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ForceDeleteAction::make(),
                 Tables\Actions\RestoreAction::make(),
             ])

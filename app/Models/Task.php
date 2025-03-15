@@ -10,7 +10,7 @@ class Task extends Model
     use HasFactory;
 
     protected $fillable = [
-        'milestone_id', 'phase_id', 'task_type_id', 'name','instructions','links',
+        'milestone_id', 'phase_id', 'task_type_id', 'to_delegate','name','instructions','links',
     ];
 
     public function milestone()
