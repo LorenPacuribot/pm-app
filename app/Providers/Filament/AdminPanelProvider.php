@@ -43,7 +43,8 @@ class AdminPanelProvider extends PanelProvider
                 'PROJECT',
                 'SYSTEM MANAGEMENT',
                 'PROCESS DETAILS',
-                'COMMUNICATION TEMPLATES',])
+                'TEMPLATES',
+                'OTHERS',])
 
             ->font('Poppins')
             ->brandName('Project Management')

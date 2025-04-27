@@ -23,7 +23,7 @@ class ReminderResource extends Resource
 
     protected static ?string $slug = 'reminders';
 
-    protected static ?string $navigationGroup = 'SYSTEM MANAGEMENT';
+    protected static ?string $navigationGroup = 'OTHERS';
 
     protected static ?int $navigationSort = 2;
 

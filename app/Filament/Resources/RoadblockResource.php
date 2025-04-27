@@ -26,7 +26,7 @@ class RoadblockResource extends Resource
 
     protected static ?string $slug = 'roadblocks';
 
-    protected static ?string $navigationGroup = 'CONCERNS';
+    protected static ?string $navigationGroup = 'OTHERS';
 
     protected static ?int $navigationSort = 1;
 

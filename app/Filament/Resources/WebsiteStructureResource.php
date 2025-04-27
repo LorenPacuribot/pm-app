@@ -17,7 +17,7 @@ class WebsiteStructureResource extends Resource
     protected static ?string $model = WebsiteStructure::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationGroup = 'Website Setup';
+    protected static ?string $navigationGroup = 'TEMPLATES';
     protected static ?string $navigationLabel = 'Sections';
     protected static ?string $pluralModelLabel = 'Sections';
     protected static ?string $modelLabel = 'Section';

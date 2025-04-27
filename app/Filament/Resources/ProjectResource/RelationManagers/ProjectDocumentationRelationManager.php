@@ -182,7 +182,7 @@ class ProjectDocumentationRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
                 Tables\Actions\Action::make('exportChecklist')
-                    ->label('Generate Content Checklist')
+                    ->label('Export Documentation')
                     ->icon('heroicon-o-document-arrow-down')
                     ->color('success')
                     ->action(function () {
@@ -211,7 +211,7 @@ class ProjectDocumentationRelationManager extends RelationManager
                         }, 'content-checklist.csv');
                     })
                     ->requiresConfirmation()
-                    ->modalHeading('Export Content Checklist')
+                    ->modalHeading('Export Documentation')
                     ->modalSubheading('Export the current project documentation into a sheet.'),
             ])
             ->actions([

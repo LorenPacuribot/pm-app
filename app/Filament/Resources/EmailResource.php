@@ -25,7 +25,7 @@ class EmailResource extends Resource
 
     protected static ?string $slug = 'emails';
 
-    protected static ?string $navigationGroup = 'COMMUNICATION TEMPLATES';
+    protected static ?string $navigationGroup = 'TEMPLATES';
 
     protected static ?int $navigationSort = 2;
 
