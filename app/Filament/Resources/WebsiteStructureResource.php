@@ -25,6 +25,8 @@ class WebsiteStructureResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
+        ->schema([
+            Forms\Components\Section::make('Sections')
             ->schema([
                 Forms\Components\TextInput::make('section_type')
                     ->label('Section Type')
@@ -45,7 +47,17 @@ class WebsiteStructureResource extends Resource
                     ->label('Functionality')
                     ->rows(5)
                     ->required(),
-            ]);
+                Forms\Components\Textarea::make('deliverable')
+                    ->label('Deliverable')
+                    ->rows(5)
+                    ->required(),
+                    Forms\Components\Textarea::make('video_manual')
+                    ->label('Video Manual')
+                    ->rows(5)
+                    ->required(),
+            ])
+
+        ]);
     }
 
     public static function table(Table $table): Table
@@ -77,6 +89,23 @@ class WebsiteStructureResource extends Resource
 
                 Tables\Columns\TextColumn::make('functionality')
                     ->label('Functionality')
+                    ->html()
+                    ->formatStateUsing(function ($state) {
+                        return nl2br(e($state));
+                    })
+                    ->limit(300)
+                    ->toggleable(),
+
+                Tables\Columns\TextColumn::make('deliverable')
+                ->label('Deliverable')
+                ->html()
+                ->formatStateUsing(function ($state) {
+                    return nl2br(e($state));
+                })
+                ->limit(300)
+                ->toggleable(),
+                    Tables\Columns\TextColumn::make('video_manual')
+                    ->label('Video Manual')
                     ->html()
                     ->formatStateUsing(function ($state) {
                         return nl2br(e($state));

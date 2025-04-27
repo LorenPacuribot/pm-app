@@ -41,19 +41,7 @@ class EmailSeeder extends Seeder
             ['id' => 25, 'name' => 'Project Closure', 'milestone_id' => 13],
         ];
 
-        $emails = [];
-
-        foreach ($phases as $phase) {
-            $emails[] = [
-                'milestone_id' => $phase['milestone_id'],
-                'phase_id' => $phase['id'],
-                'subject' => 'Notification for ' . $phase['name'],
-                'content' => 'Instructions for ' . $phase['name'] . '.',
-                'response' => 'Responses for' . $phase['id'],
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ];
-        }
+  
 
         DB::table('emails')->insert($emails);
     }
