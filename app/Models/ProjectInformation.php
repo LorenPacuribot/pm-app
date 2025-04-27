@@ -101,7 +101,7 @@ protected static function boot()
          $projectInformation->createCPIEntries();
          $projectInformation->createSPIEntries();
          $projectInformation->createTaskMonitoringEntries();
-        // $projectInformation->createCommunicationPlanEntries();
+       //  $projectInformation->createCommunicationPlanEntries();
     });
 
     static::updating(function ($projectInformation) {
@@ -117,6 +117,7 @@ protected static function boot()
         $projectInformation->createProgressEntries(); // Re-run the creation method
         $projectInformation->createCPIEntries();
         $projectInformation->createSPIEntries();
+       // $projectInformation->createCommunicationPlanEntries();
     });
 
 
@@ -349,18 +350,42 @@ public function updateTaskMonitoringStatus()
 
 // public function createCommunicationPlanEntries()
 // {
+//     // Remove old communication plan entries for this project
+//     CommunicationPlan::where('project_id', $this->project_id)->delete();
+
+//     // Retrieve all milestones for the project
 //     $milestones = Milestone::where('project_id', $this->project_id)->get();
+
 //     foreach ($milestones as $milestone) {
-//         CommunicationPlan::create([
-//             'project_id' => $this->project_id,
-//             'milestone_id' => $milestone->id,
-//             'phase_id' => Phase::where('milestone_id', $milestone->id)->value('id'),
-//             'email_id' => '',
-//             'status' => 0,
-//         ]);
+//         // Retrieve all phases under the milestone
+//         $phases = Phase::where('milestone_id', $milestone->id)->get();
+
+//         foreach ($phases as $phase) {
+//             // Retrieve all tasks under the phase
+//             $tasks = Task::where('phase_id', $phase->id)->get();
+
+//             foreach ($tasks as $task) {
+//                 // Ensure there is a corresponding email entry for the phase
+//                 $email = Email::where('phase_id', $phase->id)->first();
+
+//                 if ($email) {
+//                     CommunicationPlan::create([
+//                         'project_id'    => $this->project_id,
+//                         'milestone_id'  => $milestone->id,
+//                         'phase_id'      => $phase->id,
+//                         'task_id'       => $task->id, // Now linked to tasks
+//                         'email_id'      => $email->id,
+//                         'status'        => 0,
+//                     ]);
+//                 }
+//             }
+//         }
 //     }
 // }
 
-
-
 }
+
+
+
+
+

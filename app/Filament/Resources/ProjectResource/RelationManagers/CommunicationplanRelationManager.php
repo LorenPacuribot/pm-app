@@ -29,7 +29,7 @@ class CommunicationplanRelationManager extends RelationManager
                 ->required(),
 
             Select::make('milestone_id')
-                ->relationship('milestone', 'title') // Assuming 'milestones' table has a 'title' field
+                ->relationship('milestone', 'name') // Assuming 'milestones' table has a 'title' field
                 ->required(),
 
             Select::make('phase_id')
@@ -58,7 +58,7 @@ class CommunicationplanRelationManager extends RelationManager
             ->columns([
 
                 TextColumn::make('project.name')->sortable()->searchable(),
-                TextColumn::make('milestone.title')->sortable(),
+                TextColumn::make('milestone.name')->sortable(),
                 TextColumn::make('phase.name')->sortable(),
                 TextColumn::make('email_id')->sortable(),
                 BadgeColumn::make('status')

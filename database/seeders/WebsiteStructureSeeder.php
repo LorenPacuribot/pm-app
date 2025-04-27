@@ -1,0 +1,252 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\WebsiteStructure;
+
+class WebsiteStructureSeeder extends Seeder
+{
+    public function run(): void
+    {
+        $structures = [
+
+            [
+                'section_type' => 'Hero Banner',
+                'element' => "• Background Image\n• Heading\n• Subheading\n• Call-to-Action Button",
+                'placeholder' => "Placeholder content for Hero Banner",
+                'functionality' => "Displays a hero banner with image, headings, and button.",
+                'deliverable' => "Given I am visiting the Hero Banner section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Add, Update, and Delete Images and Text in the Hero Banner Section",
+            ],
+            [
+                'section_type' => 'About Us',
+                'element' => "• Section Heading\n• Company Story\n• Image or Video Embed",
+                'placeholder' => "Placeholder content for About Us",
+                'functionality' => "Displays company introduction and media content.",
+                'deliverable' => "Given I am visiting the About Us section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Update About Us Section Text and Media",
+            ],
+            [
+                'section_type' => 'Features/Benefits',
+                'element' => "• Feature Icon\n• Feature Title\n• Short Description",
+                'placeholder' => "Placeholder content for Features/Benefits",
+                'functionality' => "Displays feature highlights in a grid layout.",
+                'deliverable' => "Given I am visiting the Features/Benefits section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Manage Features and Benefits Section",
+            ],
+            [
+                'section_type' => 'Services Offered',
+                'element' => "• Service Icon/Image\n• Service Title\n• Service Short Description",
+                'placeholder' => "Placeholder content for Services Offered",
+                'functionality' => "Displays services in a responsive grid.",
+                'deliverable' => "Given I am visiting the Services Offered section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Manage Services Offered Section",
+            ],
+            [
+                'section_type' => 'Portfolio/Projects',
+                'element' => "• Project Image\n• Project Title\n• Category or Tags",
+                'placeholder' => "Placeholder content for Portfolio/Projects",
+                'functionality' => "Displays portfolio or project listings.",
+                'deliverable' => "Given I am visiting the Portfolio/Projects section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Add and Manage Portfolio Projects",
+            ],
+            [
+                'section_type' => 'Testimonials',
+                'element' => "• Customer Image\n• Customer Name\n• Testimonial Text",
+                'placeholder' => "Placeholder content for Testimonials",
+                'functionality' => "Displays customer testimonials in a slider.",
+                'deliverable' => "Given I am visiting the Testimonials section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Manage Customer Testimonials",
+            ],
+            [
+                'section_type' => 'Team Section',
+                'element' => "• Member Photo\n• Name\n• Job Title\n• Short Bio",
+                'placeholder' => "Placeholder content for Team Section",
+                'functionality' => "Displays team members in a grid layout.",
+                'deliverable' => "Given I am visiting the Team Section section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Update Team Members Section",
+            ],
+            [
+                'section_type' => 'Call-To-Action (CTA) Block',
+                'element' => "• CTA Text\n• CTA Button",
+                'placeholder' => "Placeholder content for Call-To-Action (CTA) Block",
+                'functionality' => "Displays a call-to-action with button.",
+                'deliverable' => "Given I am visiting the Call-To-Action (CTA) Block section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Create and Update CTA Blocks",
+            ],
+            [
+                'section_type' => 'Contact Form',
+                'element' => "• Name Input\n• Email Input\n• Message Textarea\n• Submit Button",
+                'placeholder' => "Placeholder content for Contact Form",
+                'functionality' => "Captures visitor inquiries.",
+                'deliverable' => "Given I am visiting the Contact Form section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Configure and Manage Contact Form",
+            ],
+            [
+                'section_type' => 'Blog List',
+                'element' => "• Blog Title\n• Thumbnail Image\n• Excerpt\n• Read More Button",
+                'placeholder' => "Placeholder content for Blog List",
+                'functionality' => "Displays blog posts in a paginated list.",
+                'deliverable' => "Given I am visiting the Blog List section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Add and Manage Blog Posts",
+            ],
+            [
+                'section_type' => 'Newsletter Signup',
+                'element' => "• Email Input\n• Subscribe Button",
+                'placeholder' => "Placeholder content for Newsletter Signup",
+                'functionality' => "Captures newsletter subscribers.",
+                'deliverable' => "Given I am visiting the Newsletter Signup section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Set Up Newsletter Signup Section",
+            ],
+            [
+                'section_type' => 'Pricing Table',
+                'element' => "• Plan Name\n• Price\n• Features List\n• Signup Button",
+                'placeholder' => "Placeholder content for Pricing Table",
+                'functionality' => "Displays pricing options side-by-side.",
+                'deliverable' => "Given I am visiting the Pricing Table section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Add and Update Pricing Tables",
+            ],
+            [
+                'section_type' => 'FAQs Section',
+                'element' => "• Question Text\n• Answer Text",
+                'placeholder' => "Placeholder content for FAQs Section",
+                'functionality' => "Displays FAQs in an accordion format.",
+                'deliverable' => "Given I am visiting the FAQs Section section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Manage FAQs Section",
+            ],
+            [
+                'section_type' => 'Map Integration',
+                'element' => "• Google Map Embed\n• Address Text",
+                'placeholder' => "Placeholder content for Map Integration",
+                'functionality' => "Displays an interactive Google map.",
+                'deliverable' => "Given I am visiting the Map Integration section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Embed and Manage Google Maps",
+            ],
+            [
+                'section_type' => 'Gallery',
+                'element' => "• Image Thumbnails\n• Lightbox Popup",
+                'placeholder' => "Placeholder content for Gallery",
+                'functionality' => "Displays an image gallery with popup.",
+                'deliverable' => "Given I am visiting the Gallery section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Add and Manage Image Gallery",
+            ],
+            [
+                'section_type' => 'Event Calendar',
+                'element' => "• Event Name\n• Date/Time\n• Location Info",
+                'placeholder' => "Placeholder content for Event Calendar",
+                'functionality' => "Displays events in a calendar layout.",
+                'deliverable' => "Given I am visiting the Event Calendar section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Manage Event Calendar",
+            ],
+            [
+                'section_type' => 'Career Listings',
+                'element' => "• Job Title\n• Department\n• Apply Button",
+                'placeholder' => "Placeholder content for Career Listings",
+                'functionality' => "Displays open job positions.",
+                'deliverable' => "Given I am visiting the Career Listings section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Manage Career Listings",
+            ],
+            [
+                'section_type' => 'Career Application Form',
+                'element' => "• Full Name\n• Email\n• Resume Upload\n• Cover Letter Textarea",
+                'placeholder' => "Placeholder content for Career Application Form",
+                'functionality' => "Captures career applications.",
+                'deliverable' => "Given I am visiting the Career Application Form section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Set Up Career Application Forms",
+            ],
+            [
+                'section_type' => 'Process/How It Works',
+                'element' => "• Step Number/Icon\n• Step Title\n• Step Description",
+                'placeholder' => "Placeholder content for Process/How It Works",
+                'functionality' => "Displays step-by-step process flow.",
+                'deliverable' => "Given I am visiting the Process/How It Works section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Manage Process or How It Works Section",
+            ],
+            [
+                'section_type' => 'Case Studies',
+                'element' => "• Case Title\n• Problem Statement\n• Solution Overview",
+                'placeholder' => "Placeholder content for Case Studies",
+                'functionality' => "Displays case study highlights.",
+                'deliverable' => "Given I am visiting the Case Studies section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Add and Manage Case Studies",
+            ],
+            [
+                'section_type' => 'Partner Logos',
+                'element' => "• Partner Logo Image\n• Optional Link",
+                'placeholder' => "Placeholder content for Partner Logos",
+                'functionality' => "Displays partner logos in a grid or slider.",
+                'deliverable' => "Given I am visiting the Partner Logos section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Add and Manage Partner Logos Section",
+            ],
+            [
+                'section_type' => 'Awards and Recognitions',
+                'element' => "• Award Image\n• Award Title",
+                'placeholder' => "Placeholder content for Awards and Recognitions",
+                'functionality' => "Displays awards and recognitions.",
+                'deliverable' => "Given I am visiting the Awards and Recognitions section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Update Awards and Recognition Section",
+            ],
+            [
+                'section_type' => 'Comparison Table',
+                'element' => "• Plan or Item Name\n• Feature Checklist",
+                'placeholder' => "Placeholder content for Comparison Table",
+                'functionality' => "Displays product or plan comparisons.",
+                'deliverable' => "Given I am visiting the Comparison Table section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Create and Update Comparison Tables",
+            ],
+            [
+                'section_type' => '404 Error Page',
+                'element' => "• Error Title\n• Description Text\n• Go Home Button",
+                'placeholder' => "Placeholder content for 404 Error Page",
+                'functionality' => "Displays a custom 404 error page.",
+                'deliverable' => "Given I am visiting the 404 Error Page section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Customize 404 Error Page",
+            ],
+            [
+                'section_type' => 'Breadcrumb Navigation',
+                'element' => "• Home Link\n• Intermediate Links\n• Current Page Title",
+                'placeholder' => "Placeholder content for Breadcrumb Navigation",
+                'functionality' => "Displays breadcrumb page navigation.",
+                'deliverable' => "Given I am visiting the Breadcrumb Navigation section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Manage Breadcrumb Navigation",
+            ],
+            [
+                'section_type' => 'Sidebar Widgets',
+                'element' => "• Categories List\n• Recent Posts\n• Tags Cloud",
+                'placeholder' => "Placeholder content for Sidebar Widgets",
+                'functionality' => "Displays dynamic sidebar widgets.",
+                'deliverable' => "Given I am visiting the Sidebar Widgets section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Manage Sidebar Widgets Section",
+            ],
+            [
+                'section_type' => 'Pop-up/Modal',
+                'element' => "• Modal Content\n• Close Button",
+                'placeholder' => "Placeholder content for Pop-up/Modal",
+                'functionality' => "Displays popup or modal dialogs.",
+                'deliverable' => "Given I am visiting the Pop-up/Modal section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Configure and Manage Popups/Modals",
+            ],
+            [
+                'section_type' => 'Trust Badges Section',
+                'element' => "• Security Seals\n• Payment Logos",
+                'placeholder' => "Placeholder content for Trust Badges Section",
+                'functionality' => "Displays trust badges near checkout.",
+                'deliverable' => "Given I am visiting the Trust Badges Section section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Manage Trust Badges Section",
+            ],
+            [
+                'section_type' => 'Search Section',
+                'element' => "• Search Input\n• Search Button",
+                'placeholder' => "Placeholder content for Search Section",
+                'functionality' => "Allows searching within the site.",
+                'deliverable' => "Given I am visiting the Search Section section,\nWhen I interact with the section,\nThen I should see all its elements and intended functionality.",
+                'video_manual' => "How to Set Up and Manage Search Section",
+            ],
+        ];
+
+        foreach ($structures as $structure) {
+            WebsiteStructure::create($structure);
+        }
+    }
+}

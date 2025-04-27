@@ -26,6 +26,8 @@ class DatabaseSeeder extends Seeder
         TaskCardSeeder::class,
       //  ProjectSeeder::class,
         TaskSeeder::class,
+        EmailSeeder::class,
+        WebsiteStructureSeeder::class,
         ]);
     }
 }

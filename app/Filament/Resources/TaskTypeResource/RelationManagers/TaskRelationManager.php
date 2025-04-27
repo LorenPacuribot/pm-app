@@ -17,6 +17,7 @@ use Filament\Tables\Columns\TextColumn;
 class TaskRelationManager extends RelationManager
 {
     protected static string $relationship = 'tasks';
+    protected static bool $isLazy = false;
 
     public function form(Form $form): Form
     {

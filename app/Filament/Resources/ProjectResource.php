@@ -82,25 +82,33 @@ class ProjectResource extends Resource
 
             RelationGroup::make('Information', [
                 RelationManagers\ProjectInformationRelationManager::class,
-              //  RelationManagers\ProjectTeamRelationManager::class,
                 RelationManagers\GanntChartRelationManager::class,
-                RelationManagers\ProgressRelationManager::class,
+                RelationManagers\QuicklinkRelationManager::class,
             ]),
 
             RelationGroup::make('Progress', [
+                RelationManagers\ProgressRelationManager::class,
+                RelationManagers\RoadblockRelationManager::class,
+            ]),
+
+            RelationGroup::make('Priority', [
+                RelationManagers\UrgentRelationManager::class,
+                RelationManagers\CommunicationplanRelationManager::class,
+            ]),
+
+            RelationGroup::make('Status', [
 
                 RelationManagers\TaskmonitoringstatusRelationManager::class,
                 RelationManagers\CpiRelationManager::class,
                 RelationManagers\SpiRelationManager::class,
             ]),
 
+            RelationGroup::make('Documentaion', [
 
-            RelationGroup::make('Others', [
+                RelationManagers\ProjectDocumentationRelationManager::class,
 
-                RelationManagers\CommunicationplanRelationManager::class,
-                RelationManagers\QuicklinkRelationManager::class,
-                RelationManagers\RoadblockRelationManager::class,
             ]),
+
 
 
         ];

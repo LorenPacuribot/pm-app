@@ -10,8 +10,17 @@ class Email extends Model
     use HasFactory;
 
     protected $fillable = [
-        'phase_id', 'subject', 'content', 'response',
+        'milestone_id',
+        'phase_id',
+        'subject',
+        'content',
+        'response',
     ];
+
+    public function milestone()
+    {
+        return $this->belongsTo(Milestone::class);
+    }
 
     public function phase()
     {

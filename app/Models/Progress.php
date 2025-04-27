@@ -107,6 +107,7 @@ public function updateTaskMonitoring()
     $taskMonitoring = TaskMonitoringStatus::where('project_id', $this->project_id)->first();
 
     if ($taskMonitoring) {
+        $taskMonitoring->current_milestone = Milestone::where('id', $this->milestone_id)->value('name') ?? 'Initial';
         $taskMonitoring->current_phase = Phase::where('id', $this->phase_id)->value('name') ?? 'Initial';
         $taskMonitoring->current_status = Task::where('id', $this->task_id)->value('name') ?? 'Not Started';
         $taskMonitoring->cpi = CPI::where('project_id', $this->project_id)->value('cpi_value') ?? 1;

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('end_date')->nullable();
             $table->integer('days')->nullable();
             $table->integer('delay')->default(0)->nullable();
+            $table->string('current_phase')->nullable();
             $table->date('actual_end_date')->nullable();
             $table->decimal('budget', 15, 2)->nullable();
             $table->timestamps();

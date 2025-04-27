@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('emails', function (Blueprint $table) {
+        Schema::create('urgents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('milestone_id')->constrained('milestones')->onDelete('cascade');
-            $table->foreignId('phase_id')->constrained('phases')->onDelete('cascade');
-            $table->text('subject');
-            $table->string('content');
-            $table->string('response');
+            $table->foreignId('project_id')->constrained('projects')->onDelete('cascade');
+            $table->string('name');
+            $table->boolean('status')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('emails');
+        Schema::dropIfExists('urgents');
     }
 };
