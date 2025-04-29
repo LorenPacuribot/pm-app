@@ -10,12 +10,12 @@ class Message extends Model
     use HasFactory;
 
     protected $fillable = [
-        'task_id', 'message', 'sentTo',
+        'phase_id', 'message', 'sentTo',
     ];
 
-    public function task()
+    public function phase()
     {
-        return $this->belongsTo(Task::class);
+        return $this->belongsTo(Phase::class);
     }
 }
 

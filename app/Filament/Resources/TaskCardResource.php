@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use App\Models\Task;
 use Filament\Tables;
+use App\Models\Phase;
 use App\Models\TaskCard;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
@@ -35,9 +36,9 @@ class TaskCardResource extends Resource
         ->schema([
             Forms\Components\Section::make('Task Card')
             ->schema([
-                Select::make('task_id')
-                    ->label('Task')
-                    ->options(Task::all()->pluck('name', 'id'))
+                Select::make('phase_id')
+                    ->label('Phase')
+                    ->options(Phase::all()->pluck('name', 'id'))
                     ->searchable()
                    ->required(),
                    Forms\Components\TextInput::make('name')
@@ -55,19 +56,24 @@ class TaskCardResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('Task')
+                Tables\Columns\TextColumn::make('Phase')
                     ->sortable()
                     ->getStateUsing(function ($record) {
-                        return Task::find($record->task_id)->name;
-                    }),
+                        return Phase::find($record->phase_id)->name;
+                    })
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('name')
                 ->copyable()
                 ->searchable(),
                 Tables\Columns\TextColumn::make('instruction')
                 ->copyable()
+                ->copyableState(fn ($state) => str_replace(['\\n'], "\n", $state))
                 ->searchable()
-                    ->sortable()
-                    ->wrap(),
+                ->sortable()
+                ->wrap()
+                ->formatStateUsing(fn ($state) => str_replace(['\\n'], "\n", $state))
+                ->html(), // This renders actual line breaks if styled properly
+
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

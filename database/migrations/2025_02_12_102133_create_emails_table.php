@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('milestone_id')->constrained('milestones')->onDelete('cascade');
             $table->foreignId('phase_id')->constrained('phases')->onDelete('cascade');
             $table->text('subject');
-            $table->string('content');
-            $table->string('response');
+            $table->text('content');
+            $table->text('response');
             $table->timestamps();
             $table->softDeletes();
         });

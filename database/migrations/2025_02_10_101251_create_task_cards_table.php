@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('taskcards', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('task_id')->constrained('tasks')->onDelete('cascade');
+            $table->foreignId('phase_id')->constrained('phases')->onDelete('cascade');
             $table->string('name');
             $table->text('instruction');
             $table->timestamps();

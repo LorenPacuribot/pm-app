@@ -62,10 +62,17 @@ class Project extends Model
         return $this->hasMany(CommunicationPlan::class);
     }
 
-    public function quicklink()
-    {
-        return $this->hasMany(QuickLink::class);
-    }
+    // public function quicklink()
+    // {
+    //     return $this->hasMany(QuickLink::class);
+    // }
+
+    // In Project.php
+public function quicklink()
+{
+    return $this->hasOne(QuickLink::class);
+}
+
 
     public function roadblock()
     {

@@ -10,11 +10,11 @@ class Taskcard extends Model
     use HasFactory;
 
     protected $fillable = [
-        'task_id', 'name', 'instruction',
+        'phase_id', 'name', 'instruction',
     ];
 
-    public function task()
+    public function phase()
     {
-        return $this->belongsTo(Task::class);
+        return $this->belongsTo(Phase::class);
     }
 }

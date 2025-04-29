@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use App\Models\Task;
 use Filament\Tables;
+use App\Models\Phase;
 use App\Models\Message;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
@@ -35,9 +36,9 @@ class MessageResource extends Resource
         ->schema([
             Forms\Components\Section::make('Messages')
             ->schema([
-                Select::make('task_id')
-                    ->label('Task')
-                    ->options(Task::all()->pluck('name', 'id'))
+                Select::make('phase_id')
+                    ->label('Phase')
+                    ->options(Phase::all()->pluck('name', 'id'))
                     ->searchable()
                    ->required(),
                 Forms\Components\Textarea::make('message')
@@ -57,14 +58,19 @@ class MessageResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('Task')
+                Tables\Columns\TextColumn::make('Phase')
                     ->sortable()
                     ->getStateUsing(function ($record) {
-                        return Task::find($record->task_id)->name;
+                        return Phase::find($record->phase_id)->name;
                     }),
                 Tables\Columns\TextColumn::make('message')
                 ->copyable()
-                ->searchable(),
+                ->copyableState(fn ($state) => str_replace(['\\n'], "\n", $state))
+                ->searchable()
+                ->sortable()
+                ->wrap()
+                ->formatStateUsing(fn ($state) => str_replace(['\\n'], "\n", $state))
+                ->html(), // This renders actual line breaks if styled properly
                 Tables\Columns\TextColumn::make('sentTo')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')

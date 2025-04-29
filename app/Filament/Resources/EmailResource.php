@@ -61,13 +61,19 @@ class EmailResource extends Resource
                 ->sortable()
                 ->getStateUsing(function ($record) {
                     return Phase::find($record->phase_id)->name;
-                }),
+                })
+                ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('subject')
                 ->searchable()
                 ->copyable(),
                 Tables\Columns\TextColumn::make('content')
-                    ->searchable()
-                    ->copyable(),
+                ->copyable()
+                ->copyableState(fn ($state) => str_replace(['\\n'], "\n", $state))
+                ->searchable()
+                ->sortable()
+                ->wrap()
+                ->formatStateUsing(fn ($state) => str_replace(['\\n'], "\n", $state))
+                ->html(), // This renders actual line breaks if styled properly
                 Tables\Columns\TextColumn::make('response')
                     ->searchable()
                     ->copyable()

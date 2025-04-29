@@ -22,12 +22,15 @@ class DatabaseSeeder extends Seeder
         MilestoneSeeder::class,
         PhaseSeeder::class,
         TaskTypeSeeder::class,
-        MessageSeeder::class,
+        TaskSeeder::class,
+       MessageSeeder::class,
         TaskCardSeeder::class,
       //  ProjectSeeder::class,
-        TaskSeeder::class,
+
         EmailSeeder::class,
         WebsiteStructureSeeder::class,
+
+        VersesSeeder::class,
         ]);
     }
 }
