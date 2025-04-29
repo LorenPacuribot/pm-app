@@ -34,8 +34,8 @@ class TaskRelationManager extends RelationManager
                    Select::make('to_delegate')
                    ->label('Task owner')
                 ->options([
-                    '0' => 'PM task ',
-                    '1' => 'Team task',
+                    '1' => 'PM task ',
+                    '0' => 'Team task',
                 ]),
                 Forms\Components\TextInput::make('name')
                     ->required()
