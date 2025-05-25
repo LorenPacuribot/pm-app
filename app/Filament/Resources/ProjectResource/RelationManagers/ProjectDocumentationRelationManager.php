@@ -10,8 +10,6 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Set;
 use App\Models\WebsiteStructure;
 use Filament\Resources\RelationManagers\RelationManager;
-use App\Exports\ProjectDocumentationTemplateExport;
-use Maatwebsite\Excel\Facades\Excel;
 
 class ProjectDocumentationRelationManager extends RelationManager
 {
@@ -184,56 +182,37 @@ class ProjectDocumentationRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
                 Tables\Actions\Action::make('exportChecklist')
-                ->label('Export Documentation')
-                ->icon('heroicon-o-document-arrow-down')
-                ->color('success')
-                ->action(function () {
-                    $exporter = new ProjectDocumentationTemplateExport($this->ownerRecord);
-                    return $exporter->download();
-                })
-                ->requiresConfirmation()
-                ->modalHeading('Export Documentation')
-                ->modalSubheading('Export the current project documentation using the Excel template.')
+                    ->label('Export Documentation')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->color('success')
+                    ->action(function () {
+                        return response()->streamDownload(function () {
+                            $handle = fopen('php://output', 'w');
 
+                            fputcsv($handle, [
+                                'Page', 'Section Number', 'Section Name', 'Section Type',
+                                'Elements', 'Placeholder', 'Functionality', 'Deliverable'
+                            ]);
 
+                            foreach ($this->ownerRecord->projectDocumentation as $doc) {
+                                fputcsv($handle, [
+                                    $doc->page,
+                                    $doc->section_number,
+                                    $doc->section_name,
+                                    $doc->section_type,
+                                    $doc->elements,
+                                    $doc->placeholder,
+                                    $doc->functionality,
+                                    $doc->deliverable,
+                                ]);
+                            }
 
-
-
-
-
-
-                // Tables\Actions\Action::make('exportChecklist')
-                //     ->label('Export Documentation')
-                //     ->icon('heroicon-o-document-arrow-down')
-                //     ->color('success')
-                //     ->action(function () {
-                //         return response()->streamDownload(function () {
-                //             $handle = fopen('php://output', 'w');
-
-                //             fputcsv($handle, [
-                //                 'Page', 'Section Number', 'Section Name', 'Section Type',
-                //                 'Elements', 'Placeholder', 'Functionality', 'Deliverable'
-                //             ]);
-
-                //             foreach ($this->ownerRecord->projectDocumentation as $doc) {
-                //                 fputcsv($handle, [
-                //                     $doc->page,
-                //                     $doc->section_number,
-                //                     $doc->section_name,
-                //                     $doc->section_type,
-                //                     $doc->elements,
-                //                     $doc->placeholder,
-                //                     $doc->functionality,
-                //                     $doc->deliverable,
-                //                 ]);
-                //             }
-
-                //             fclose($handle);
-                //         }, 'content-checklist.csv');
-                //     })
-                //     ->requiresConfirmation()
-                //     ->modalHeading('Export Documentation')
-                //     ->modalSubheading('Export the current project documentation into a sheet.'),
+                            fclose($handle);
+                        }, 'content-checklist.csv');
+                    })
+                    ->requiresConfirmation()
+                    ->modalHeading('Export Documentation')
+                    ->modalSubheading('Export the current project documentation into a sheet.'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

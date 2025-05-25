@@ -14,7 +14,7 @@
           /*  background: url('images/Background.png') no-repeat center center fixed;
             background-size: cover;
              background-image: linear-gradient(to left,#000000 , #00003f,#0066cc, #0066cc, #00003f,  #000000); */
-            background-image: linear-gradient(to left,  #00003f,  #000000);
+           background-image: linear-gradient(to left,  pink,  #ffffff);
             color: white;
 
             /* Set the height of the body to fill the viewport */
@@ -27,18 +27,31 @@
             justify-content: center;
             align-items: center;
             text-align: center;
+
+
+
         }
+
+            h2 {
+              margin-top: 20px;
+        color: #e21d69;
+        font-weight: 700;
+    }
         /* Style for logo */
         .logo {
             width: 200px; /* Adjust width as needed */
             height: auto;
+            border: 4px solid #e21d69; /* Pink border */
+           border-radius: 500px; /* Optional: rounded corners */
+            padding: 5px; /* Optional: spacing inside the border */
+
         }
       /* Style for login button */
       .login-btn {
             margin-top: 20px;
             padding: 10px 20px;
-            background-color: #FFA500;
-            color: #fff;
+            background-color: rgb(226, 29, 105);
+            color: pink;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -48,7 +61,7 @@
         }
         /* Style for login button hover */
         .login-btn:hover {
-            background-color: #0056b3; /* Darker shade of blue */
+            background-color: #ffffff; /* Darker shade of blue */
         }
     </style>
 </head>
