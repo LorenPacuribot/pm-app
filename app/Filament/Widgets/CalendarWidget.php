@@ -2,100 +2,94 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\Event;
-use App\Filament\Resources\EventResource;
+use App\Models\GanttChart;
+use App\Models\Project;
+use App\Models\Task;
+use App\Models\Phase;
+use Illuminate\Support\Carbon;
 use Saade\FilamentFullCalendar\Data\EventData;
 use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
-use Saade\FilamentFullCalendar\Actions\EditAction;
-use Saade\FilamentFullCalendar\Actions\DeleteAction;
-use Filament\Forms;
-use Filament\Forms\Form;
-use Illuminate\Database\Eloquent\Model;
 
 class CalendarWidget extends FullCalendarWidget
 {
-    public Model | string | null $model = Event::class;
+    public \Illuminate\Database\Eloquent\Model | string | null $model = GanttChart::class;
     protected static ?int $sort = 2;
 
+public function fetchEvents(array $fetchInfo): array
+{
+    $view = $fetchInfo['view'] ?? 'dayGridMonth';
 
-    /**
-     * Fetch calendar events between start and end range.
-     */
-    public function fetchEvents(array $fetchInfo): array
+    return match ($view) {
+        'dayGridMonth' => $this->getMilestoneEvents($fetchInfo),
+        'timeGridWeek' => $this->getPhaseEvents($fetchInfo),
+        'timeGridDay'  => $this->getTaskEvents($fetchInfo),
+        default        => [],
+    };
+}
+
+
+    protected function getMilestoneEvents(array $fetchInfo): array
     {
-        return Event::query()
-            ->where('starts_at', '>=', $fetchInfo['start'])
-            ->where('ends_at', '<=', $fetchInfo['end'])
+        return GanttChart::query()
+            ->whereDate('start_date', '<=', $fetchInfo['end'])
+            ->whereDate('actual_end_date', '>=', $fetchInfo['start'])
+            ->with(['milestone', 'project'])
             ->get()
-            ->map(
-                fn (Event $event) => EventData::make()
-                    ->id($event->id) // ensure you're using `id`, not `uuid`, unless routed accordingly
-                    ->title($event->name)
-                    ->start($event->starts_at)
-                    ->end($event->ends_at)
-                    ->url(
-                        url: EventResource::getUrl('view', ['record' => $event->getKey()]),
-                        shouldOpenUrlInNewTab: true
-                    )
-            )
+            ->map(function (GanttChart $gantt) {
+                $endDate = $gantt->actual_end_date
+                    ? Carbon::parse($gantt->actual_end_date)->addDay()->toDateString()
+                    : null;
+
+                return EventData::make()
+                    ->id($gantt->id)
+                    ->title($gantt->project->name . ': ' . optional($gantt->milestone)->name)
+                    ->start($gantt->start_date)
+                    ->end($endDate);
+            })
             ->toArray();
     }
 
-    /**
-     * Calendar form schema for creating/editing events.
-     */
-    public function getFormSchema(): array
+    protected function getPhaseEvents(array $fetchInfo): array
     {
-        return [
-            Forms\Components\TextInput::make('name')
-                ->required(),
-
-            Forms\Components\Textarea::make('description'),
-
-            Forms\Components\DateTimePicker::make('starts_at')
-                ->required(),
-
-            Forms\Components\DateTimePicker::make('ends_at'),
-
-            Forms\Components\Select::make('status')
-                ->options([
-                    'planned' => 'Planned',
-                    'ongoing' => 'Ongoing',
-                    'completed' => 'Completed',
-                ])
-                ->required(),
-
-            Forms\Components\ColorPicker::make('color'),
-
-            Forms\Components\Select::make('repeat')
-                ->options([
-                    'none' => 'Do not repeat',
-                    'daily' => 'Daily',
-                    'weekly' => 'Weekly',
-                    'monthly' => 'Monthly',
-                ])
-        ];
+        return Phase::query()
+            ->whereDate('start_date', '<=', $fetchInfo['end'])
+            ->whereDate('end_date', '>=', $fetchInfo['start'])
+            ->with('project')
+            ->get()
+            ->map(function (Phase $phase) {
+                return EventData::make()
+                    ->id($phase->id)
+                    ->title($phase->project->name . ': ' . $phase->name)
+                    ->start($phase->start_date)
+                    ->end(Carbon::parse($phase->end_date)->addDay()->toDateString());
+            })
+            ->toArray();
     }
 
-    /**
-     * Enable editing and deletion from modal actions.
-     */
+    protected function getTaskEvents(array $fetchInfo): array
+    {
+        return Task::query()
+            ->whereDate('start_time', '<=', $fetchInfo['end'])
+            ->whereDate('end_time', '>=', $fetchInfo['start'])
+            ->with('project')
+            ->get()
+            ->map(function (Task $task) {
+                return EventData::make()
+                    ->id($task->id)
+                    ->title($task->project->name . ': ' . $task->name)
+                    ->start($task->start_time)
+                    ->end(Carbon::parse($task->end_time)->addDay()->toDateString());
+            })
+            ->toArray();
+    }
+
+    public function getFormSchema(): array
+    {
+        return [];
+    }
+
     protected function modalActions(): array
     {
-        return [
-            EditAction::make()
-                ->mountUsing(function (Event $record, Form $form, array $arguments) {
-                    $form->fill([
-                        'name' => $record->name,
-                        'description' => $record->description,
-                        'starts_at' => $arguments['event']['start'] ?? $record->starts_at,
-                        'ends_at' => $arguments['event']['end'] ?? $record->ends_at,
-                        'status' => $record->status,
-                        'color' => $record->color,
-                        'repeat' => $record->repeat,
-                    ]);
-                }),
-            DeleteAction::make(),
-        ];
+        return [];
     }
 }

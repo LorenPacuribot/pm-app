@@ -17,8 +17,8 @@ class CPI extends Model
 
     protected $fillable = [
         'project_id',
-        'estimates_from_sales',
-        'time_consumed_by_team',
+        'estimated_time',
+        'actual_time',
         'cpi_status',
         'cpi_value'
     ];

@@ -22,7 +22,9 @@ class GanttChart extends Model
         'days',
         'delay',
         'actual_end_date',
-        'budget'
+        'total_qoutation',
+        'total_estimated_time',
+        'total_actual_time'
     ];
 
     public function project(): BelongsTo

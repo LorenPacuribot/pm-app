@@ -16,14 +16,18 @@ class Progress extends Model
 
     protected $fillable = [
         'project_id',
-        'task_type_id',
         'milestone_id',
         'phase_id',
+        'task_type_id',
         'task_id',
+        'assigned_people_id',
         'status',
         'actual_end_date',
-        'budget_from_sales',
-        'time_consumed_by_team',
+        'estimated_time',
+        'actual_time',
+        'time_start',
+        'time_end',
+        'notes'
     ];
 
     public function project()
@@ -46,41 +50,53 @@ class Progress extends Model
         return $this->belongsTo(Task::class);
     }
 
-    protected static function boot()
+        public function assignedPeople()
     {
-        parent::boot();
-
-        // When a progress entry is created or updated, update CPI, SPI, and Task Monitoring
-        static::saved(function ($progress) {
-            $progress->updateCPI();
-            $progress->updateSPI();
-            $progress->updateTaskMonitoring();
-            $progress->updateGanttChart();
-        });
-
-        // When a progress entry is deleted, update CPI, SPI, and Task Monitoring
-        static::deleted(function ($progress) {
-            $progress->updateCPI();
-            $progress->updateSPI();
-            $progress->updateTaskMonitoring();
-            $progress->updateGanttChart();
-        });
+        return $this->belongsTo(AssignedPeople::class);
     }
+
+public function ganttChart()
+{
+    return \App\Models\GanttChart::where('milestone_id', $this->milestone_id)->first();
+}
+
+
+
+protected static function boot()
+{
+    parent::boot();
+
+    static::saved(function ($progress) {
+        $progress->updateCPI();
+        $progress->updateSPI();
+        $progress->updateTaskMonitoring();
+        $progress->updateGanttChart();
+        $progress->updateGanttChartTotals(); // ← Add this line
+    });
+
+    static::deleted(function ($progress) {
+        $progress->updateCPI();
+        $progress->updateSPI();
+        $progress->updateTaskMonitoring();
+        $progress->updateGanttChart();
+        $progress->updateGanttChartTotals(); // ← Add this line
+    });
+}
 
 
     public function updateCPI()
     {
         $projectId = $this->project_id;
-        $budget = Progress::where('project_id', $projectId)->sum('budget_from_sales');
-        $timeConsumed = Progress::where('project_id', $projectId)->sum('time_consumed_by_team');
+        $total_qoutation = Progress::where('project_id', $projectId)->sum('estimated_time');
+        $timeConsumed = Progress::where('project_id', $projectId)->sum('actual_time');
 
         CPI::updateOrCreate(
             ['project_id' => $projectId], // Find the CPI entry by project_id
             [
-                'estimates_from_sales' => $budget,
-                'time_consumed_by_team' => $timeConsumed,
-                'cpi_status' => ($timeConsumed == 0) ? 1 : ($budget / $timeConsumed),
-                'cpi_value' => ($timeConsumed == 0) ? 1 : ($budget / $timeConsumed),
+                'estimated_time' => $total_qoutation,
+                'actual_time' => $timeConsumed,
+                'cpi_status' => ($timeConsumed == 0) ? 1 : ($total_qoutation / $timeConsumed),
+                'cpi_value' => ($timeConsumed == 0) ? 1 : ($total_qoutation / $timeConsumed),
             ]
         );
     }
@@ -128,5 +144,25 @@ public function updateTaskMonitoring()
         }
     }
 
+public function updateGanttChartTotals()
+{
+    if (!$this->milestone_id) return;
+
+    $ganttChart = GanttChart::where('milestone_id', $this->milestone_id)
+        ->where('project_id', $this->project_id)
+        ->first();
+
+    if ($ganttChart) {
+        $ganttChart->total_estimated_time = Progress::where('milestone_id', $this->milestone_id)
+            ->where('project_id', $this->project_id)
+            ->sum('estimated_time');
+
+        $ganttChart->total_actual_time = Progress::where('milestone_id', $this->milestone_id)
+            ->where('project_id', $this->project_id)
+            ->sum('actual_time');
+
+        $ganttChart->saveQuietly();
+    }
+}
 
 }

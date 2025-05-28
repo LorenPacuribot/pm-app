@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
         WebsiteStructureSeeder::class,
 
         VersesSeeder::class,
+        AssignedPeopleSeeder::class,
         ]);
     }
 }

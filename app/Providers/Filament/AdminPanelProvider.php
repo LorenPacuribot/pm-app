@@ -50,13 +50,30 @@ class AdminPanelProvider extends PanelProvider
 
             ->font('Poppins')
             ->brandName('Project Management')
-        //    ->brandLogo(asset('images/log.png'))
+            ->brandLogo(asset('images/amdg.png'))
             ->brandLogoHeight('3rem')
           //  ->brandLogo(fn () => view('images/city.png'))
             ->favicon(asset('images/logo.png'))
 
 
-        ->plugins([FilamentFullCalendarPlugin::make()])
+      //  ->plugins([FilamentFullCalendarPlugin::make()])
+
+ ->plugin(
+                FilamentFullCalendarPlugin::make()
+                  //  ->schedulerLicenseKey()
+                    ->selectable()
+                    ->editable()
+                    //->timezone()
+                    //->locale()
+                    //->plugins()
+                    //->config()
+            )
+
+
+
+
+
+
 
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

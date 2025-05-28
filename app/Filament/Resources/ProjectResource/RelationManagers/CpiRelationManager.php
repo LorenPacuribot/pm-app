@@ -42,8 +42,8 @@ class CpiRelationManager extends RelationManager
                 // ->toggleable(isToggledHiddenByDefault: true)
                 // ->label('Project'),
                // TextColumn::make('project.name')->label('Project'),
-                TextColumn::make('estimates_from_sales'),
-                TextColumn::make('time_consumed_by_team'),
+                TextColumn::make('estimated_time'),
+                TextColumn::make('actual_time'),
                 TextColumn::make('cpi_status')
                 ->badge()
                 ->color(fn ($record) =>

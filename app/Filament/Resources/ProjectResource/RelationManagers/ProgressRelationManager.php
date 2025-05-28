@@ -34,10 +34,25 @@ class ProgressRelationManager extends RelationManager
             // Forms\Components\TextInput::make('status')
             //     ->required()
             //     ->maxLength(255),
-            TextInput::make('budget_from_sales')
-            ->label('Budget from Sales'),
-            TextInput::make('time_consumed_by_team')
+
+                                Select::make('assigned_people_id')
+                                    ->relationship('assignedPeople', 'name') // Ensure correct model relation
+                                    ->label('Assigned Person')
+                                    ->required(),
+
+            TextInput::make('estimated_time')
+            ->label('Estimated time'),
+            TextInput::make('actual_time')
             ->label('Time consumed'),
+            TextInput::make('time_start')
+            ->label('Time Started'),
+            TextInput::make('time_end')
+            ->label('Time Finished'),
+
+                        TextInput::make('notes')
+            ->label('Notes'),
+
+
                 Select::make('status')
                 ->options([
                     '0' => 'Pending',
@@ -72,10 +87,36 @@ class ProgressRelationManager extends RelationManager
                 ->searchable()
                 ->sortable()
                 ->label('Task'),
-                TextColumn::make('budget_from_sales')
+                TextColumn::make('assignedPeople.name')
+                ->toggleable(isToggledHiddenByDefault: true)
+                ->searchable()
+                ->sortable()
+                ->label('Assigned People'),
+                TextColumn::make('estimated_time')
                 ->label('Qoute from Sales')
+                ->toggleable(isToggledHiddenByDefault: true)
                 ->searchable()
                 ->sortable(),
+
+                TextColumn::make('actual_time')
+                   ->label('Time Consumed')
+                   ->toggleable(isToggledHiddenByDefault: true)
+                   ->searchable()
+                   ->sortable(),
+
+                TextColumn::make('time_start')
+                   ->label('Time Started')
+                   ->toggleable(isToggledHiddenByDefault: true)
+                   ->searchable()
+                   ->sortable(),
+
+                TextColumn::make('time_end')
+                   ->label('Time End')
+                   ->toggleable(isToggledHiddenByDefault: true)
+                   ->searchable()
+                   ->sortable(),
+
+
                 TextColumn::make('status')
                 ->label('Status')
                 ->searchable()
@@ -86,8 +127,10 @@ class ProgressRelationManager extends RelationManager
                    '0' => 'warning',
                    '1' => 'success',
                 }),
-                   TextColumn::make('time_consumed_by_team')
-                   ->label('Time Consumed')
+
+                                TextColumn::make('notes')
+                   ->label('Notes')
+                   ->toggleable(isToggledHiddenByDefault: true)
                    ->searchable()
                    ->sortable(),
 
@@ -102,8 +145,8 @@ class ProgressRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-              //  Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
+               Tables\Actions\EditAction::make(),
               //  Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ForceDeleteAction::make(),
                 Tables\Actions\RestoreAction::make(),

@@ -103,7 +103,7 @@ class PhaseResource extends Resource
     {
         return [
             'index' => Pages\ListPhases::route('/'),
-            'create' => Pages\CreatePhase::route('/create'),
+           'create' => Pages\CreatePhase::route('/create'),
             'edit' => Pages\EditPhase::route('/{record}/edit'),
         ];
     }

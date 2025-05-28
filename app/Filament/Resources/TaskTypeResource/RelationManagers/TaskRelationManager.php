@@ -8,12 +8,14 @@ use App\Models\Phase;
 use Filament\Forms\Form;
 use App\Models\Milestone;
 use Filament\Tables\Table;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Infolists\Components\TextEntry;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Infolists\Components\TextEntry;
-use Filament\Tables\Columns\TextColumn;
+
 class TaskRelationManager extends RelationManager
 {
     protected static string $relationship = 'tasks';
@@ -24,12 +26,30 @@ class TaskRelationManager extends RelationManager
         return $form
         ->schema([
             Forms\Components\Section::make('Task')
-            ->schema([
-                Select::make('phase_id')
-                    ->label('Phase')
-                    ->options(Phase::all()->pluck('name', 'id'))
-                    ->searchable()
-                   ->required(),
+             ->schema([
+            //     Select::make('phase_id')
+            //         ->label('Phase')
+            //         ->options(Phase::all()->pluck('name', 'id'))
+            //         ->searchable()
+            //        ->required(),
+
+
+
+                    Select::make('phase_id')
+                        ->label('Phase')
+                        ->options(Phase::all()->pluck('name', 'id'))
+                        ->searchable()
+                        ->required()
+                        ->reactive()
+                        ->afterStateUpdated(function ($state, callable $set) {
+                            $milestoneId = Phase::find($state)?->milestone_id;
+                            if ($milestoneId) {
+                                $set('milestone_id', $milestoneId);
+                            }
+                        }),
+
+                    Hidden::make('milestone_id'),
+
 
                    Select::make('to_delegate')
                    ->label('Task owner')

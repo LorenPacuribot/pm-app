@@ -21,7 +21,9 @@ return new class extends Migration
             $table->integer('delay')->default(0)->nullable();
             $table->string('current_phase')->nullable();
             $table->date('actual_end_date')->nullable();
-            $table->decimal('budget', 15, 2)->nullable();
+            $table->decimal('total_qoutation', 15, 2)->nullable();
+            $table->decimal('total_actual_time', 15, 2)->nullable();
+             $table->decimal('total_estimated_time', 15, 2)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

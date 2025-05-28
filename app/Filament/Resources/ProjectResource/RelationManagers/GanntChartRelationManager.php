@@ -90,6 +90,20 @@ class GanntChartRelationManager extends RelationManager
 
                 TextColumn::make('actual_end_date')
                 ->label('Actual End Date'),
+
+                TextColumn::make('total_qoutation')
+                ->label('Total qoutation')
+                ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('total_estimated_time')
+                ->label('Total estimated time')
+                ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('total_actual_time')
+                ->label('Total actual time')
+                ->toggleable(isToggledHiddenByDefault: true),
+
+
             ])
             ->filters([
                 //

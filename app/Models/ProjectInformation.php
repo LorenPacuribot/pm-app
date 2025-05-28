@@ -142,13 +142,15 @@ public function createGanttChartEntries()
     GanttChart::where('project_id', $this->project_id)->delete();
 
     $milestones = Milestone::all();
-    $startDate = Carbon::parse($this->project_startdate);
+
+    // Default initial start date from project start
+    $previousActualEnd = Carbon::parse($this->project_startdate)->copy()->subDay();
 
     foreach ($milestones as $index => $milestone) {
-        $endDate = $startDate->copy()->addDays(1);
-        while ($endDate->isWeekend()) {
-            $endDate->addDay();
-        }
+        // Get the next business day after the last actual_end_date
+        $startDate = GanttChart::getNextBusinessDay($previousActualEnd);
+        $endDate = GanttChart::addBusinessDays($startDate, 1, 0);
+        $actualEndDate = GanttChart::addBusinessDays($startDate, 1, 0);
 
         GanttChart::create([
             'project_id' => $this->project_id,
@@ -157,13 +159,45 @@ public function createGanttChartEntries()
             'end_date' => $endDate,
             'days' => 1,
             'delay' => 0,
-            'budget' => 0,
-            'actual_end_date'=> $endDate,
+            'actual_end_date' => $actualEndDate,
+            'total_qoutation' => 0,
+            'total_estimated_time' => 0,
+            'total_actual_time' => 0,
         ]);
 
-        $startDate = $endDate->copy()->addDay();
+        $previousActualEnd = $actualEndDate->copy(); // Move to next reference
     }
 }
+
+
+// public function createGanttChartEntries()
+// {
+//     // Remove old Gantt Chart entries for this project
+//     GanttChart::where('project_id', $this->project_id)->delete();
+
+//     $milestones = Milestone::all();
+//     $startDate = Carbon::parse($this->project_startdate);
+
+//     foreach ($milestones as $index => $milestone) {
+//         $endDate = $startDate->copy()->addDays(1);
+//         while ($endDate->isWeekend()) {
+//             $endDate->addDay();
+//         }
+
+//         GanttChart::create([
+//             'project_id' => $this->project_id,
+//             'milestone_id' => $milestone->id,
+//             'start_date' => $startDate,
+//             'end_date' => $endDate,
+//             'days' => 1,
+//             'delay' => 0,
+//             'total_qoutation' => 0,
+//             'actual_end_date'=> $endDate,
+//         ]);
+
+//         $startDate = $endDate->copy()->addDay();
+//     }
+// }
 
 
 
@@ -270,10 +304,13 @@ public function updateGanttChartStartDate()
                 'milestone_id' => $task->milestone_id,
                 'phase_id' => $task->phase_id,
                 'task_id' => $task->id,
+                'assigned_people_id' => $task->assigned_people_id ?? 1, // Fallback or real data
                 'start_date' => GanttChart::where('milestone_id', $task->milestone_id)->value('start_date'),
                 'end_date' => GanttChart::where('milestone_id', $task->milestone_id)->value('end_date'),
-                'budget_from_sales' => 0,
-                'time_consumed' => 0,
+                'estimated_time' => 0,
+                'actual_time' => 0,
+                'time_start' => '08:00:00',
+                'time_end' => '17:00:00',
                 'status' => 0,
             ]);
         }
@@ -284,14 +321,14 @@ public function createCPIEntries()
 {
     CPI::where('project_id', $this->project_id)->delete();
 
-    $budget = Progress::where('project_id', $this->project_id)->sum('budget_from_sales');
-    $timeConsumed = Progress::where('project_id', $this->project_id)->sum('time_consumed_by_team');
+    $totalEstimatedTime = Progress::where('project_id', $this->project_id)->sum('estimated_time');
+    $timeConsumed = Progress::where('project_id', $this->project_id)->sum('actual_time');
     CPI::create([
         'project_id' => $this->project_id,
-        'estimates_from_sales' => $budget,
-        'time_consumed_by_team' => $timeConsumed,
-        'cpi_status' => ($timeConsumed == 0) ? 1 : ($budget / $timeConsumed),
-        'cpi_value' => ($timeConsumed == 0) ? 1 : ($budget / $timeConsumed),
+        'estimated_time' =>  $totalEstimatedTime,
+        'actual_time' => $timeConsumed,
+        'cpi_status' => ($timeConsumed == 0) ? 1 : ( $totalEstimatedTime / $timeConsumed),
+        'cpi_value' => ($timeConsumed == 0) ? 1 : ( $totalEstimatedTime / $timeConsumed),
     ]);
 }
 

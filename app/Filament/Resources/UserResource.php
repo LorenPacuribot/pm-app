@@ -30,8 +30,11 @@ class UserResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                //
+           ->schema([
+                Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
+
             ]);
     }
 
@@ -39,7 +42,8 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                //
+                 Tables\Columns\TextColumn::make('name')
+                ->searchable(),
             ])
             ->filters([
                 //

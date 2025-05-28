@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('cpi', function (Blueprint $table) {
             $table->id();
             $table->foreignId('project_id')->constrained('projects')->onDelete('cascade');
-            $table->integer('estimates_from_sales');
-            $table->integer('time_consumed_by_team');
+            $table->integer('estimated_time');
+            $table->integer('actual_time');
             $table->string('cpi_status');
             $table->integer('cpi_value');
             $table->timestamps();
